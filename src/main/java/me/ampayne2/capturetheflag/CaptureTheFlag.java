@@ -108,12 +108,13 @@ public class CaptureTheFlag extends GamePlugin {
         List<String> teamTwo = new ArrayList<String>();
         
         Random generator = new Random();
+        if (arena.getPlayers().size() % 2 != 0) {
+            ultimateGames.getPlayerManager().removePlayerFromArena(arena.getPlayers().get(arena.getPlayers().size() - 1), arena, false);
+        }
         while (teamOne.size() + teamTwo.size() != arena.getPlayers().size()) {
             String playerName = arena.getPlayers().get(generator.nextInt(arena.getPlayers().size()));
             if (!teamOne.contains(playerName) && !teamTwo.contains(playerName)) {
-                if (teamOne.size() + teamTwo.size() + 1 == arena.getPlayers().size() && arena.getPlayers().size() % 2 != 0) {
-                    ultimateGames.getPlayerManager().removePlayerFromArena(playerName, arena, true);
-                } else if (teamOne.size() <= teamTwo.size()) {
+                if (teamOne.size() <= teamTwo.size()) {
                     teamOne.add(playerName);
                     ultimateGames.getMessageManager().sendReplacedGameMessage(game, playerName, "Team", ChatColor.BLUE + "Team Blue");
                     scoreBoard.addPlayer(playerName);
@@ -221,6 +222,8 @@ public class CaptureTheFlag extends GamePlugin {
         if (arena.getStatus() == ArenaStatus.RUNNING && !(teamBlue.get(arena).size() == 0 && teamRed.get(arena).size() == 0) && (teamBlue.get(arena).size() == 0 || teamRed.get(arena).size() == 0)) {
             ultimateGames.getArenaManager().endArena(arena);
         }
+
+
         return true;
     }
 
