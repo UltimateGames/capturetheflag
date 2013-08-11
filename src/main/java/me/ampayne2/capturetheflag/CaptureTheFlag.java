@@ -111,7 +111,9 @@ public class CaptureTheFlag extends GamePlugin {
         while (teamOne.size() + teamTwo.size() != arena.getPlayers().size()) {
             String playerName = arena.getPlayers().get(generator.nextInt(arena.getPlayers().size()));
             if (!teamOne.contains(playerName) && !teamTwo.contains(playerName)) {
-                if (teamOne.size() <= teamTwo.size()) {
+                if (teamOne.size() + teamTwo.size() + 1 == arena.getPlayers().size() && arena.getPlayers().size() % 2 != 0) {
+                    ultimateGames.getPlayerManager().removePlayerFromArena(playerName, arena, true);
+                } else if (teamOne.size() <= teamTwo.size()) {
                     teamOne.add(playerName);
                     ultimateGames.getMessageManager().sendReplacedGameMessage(game, playerName, "Team", ChatColor.BLUE + "Team Blue");
                     scoreBoard.addPlayer(playerName);
@@ -193,6 +195,8 @@ public class CaptureTheFlag extends GamePlugin {
         Player player = Bukkit.getPlayerExact(playerName);
         player.setHealth(20.0);
         player.setFoodLevel(20);
+        player.getInventory().clear();
+        player.getInventory().setArmorContents(null);
         return true;
     }
 
@@ -213,6 +217,9 @@ public class CaptureTheFlag extends GamePlugin {
         Player player = Bukkit.getPlayerExact(playerName);
         if (player.hasPotionEffect(PotionEffectType.SLOW)) {
             player.removePotionEffect(PotionEffectType.SLOW);
+        }
+        if (arena.getStatus() == ArenaStatus.RUNNING && !(teamBlue.get(arena).size() == 0 && teamRed.get(arena).size() == 0) && (teamBlue.get(arena).size() == 0 || teamRed.get(arena).size() == 0)) {
+            ultimateGames.getArenaManager().endArena(arena);
         }
         return true;
     }
