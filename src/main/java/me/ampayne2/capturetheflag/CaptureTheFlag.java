@@ -146,9 +146,17 @@ public class CaptureTheFlag extends GamePlugin {
                 Integer teamOneScore = scoreBoard.getScore(ChatColor.BLUE + "Team Blue");
                 Integer teamTwoScore = scoreBoard.getScore(ChatColor.RED + "Team Red");
                 if (teamOneScore > teamTwoScore) {
+                    for (String playerName : teamBlue.get(arena)) {
+                        ultimateGames.getPointManager().addPoint(game, playerName, "store", 50);
+                        ultimateGames.getPointManager().addPoint(game, playerName, "win", 1);
+                    }
                     ultimateGames.getMessageManager().broadcastReplacedGameMessage(game, "GameEnd", "Team Blue", game.getGameDescription().getName(), arena.getName());
                 } else if (teamOneScore < teamTwoScore) {
                     ultimateGames.getMessageManager().broadcastReplacedGameMessage(game, "GameEnd", "Team Red", game.getGameDescription().getName(), arena.getName());
+                    for (String playerName : teamRed.get(arena)) {
+                        ultimateGames.getPointManager().addPoint(game, playerName, "store", 50);
+                        ultimateGames.getPointManager().addPoint(game, playerName, "win", 1);
+                    }
                 } else {
                     ultimateGames.getMessageManager().broadcastReplacedGameMessage(game, "GameTie", "Team Blue", "Team Red", game.getGameDescription().getName(), arena.getName());
                 }
@@ -242,6 +250,8 @@ public class CaptureTheFlag extends GamePlugin {
                 killerName = killer.getName();
                 if (ultimateGames.getPlayerManager().isPlayerInArena(killer.getName()) && ultimateGames.getPlayerManager().getPlayerArena(killer.getName()).equals(arena)) {
                     killer.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 20 * 2, 5));
+                    ultimateGames.getPointManager().addPoint(game, killerName, "store", 1);
+                    ultimateGames.getPointManager().addPoint(game, killerName, "kills", 1);
                 }
                 ultimateGames.getMessageManager().broadcastReplacedGameMessageToArena(game, arena, "Kill", killerName, event.getEntity().getName());
             } else {
@@ -328,9 +338,13 @@ public class CaptureTheFlag extends GamePlugin {
                         teamBlueFlagHolder.put(arena, playerName);
                         ultimateGames.getMessageManager().broadcastReplacedGameMessageToArena(game, arena, "Pickup", playerName, "Team Red");
                         player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 6000, 1));
+                        ultimateGames.getPointManager().addPoint(game, playerName, "pickup", 1);
+                        ultimateGames.getPointManager().addPoint(game, playerName, "store", 5);
                     } else if (teamRed.get(arena).contains(playerName) && teamRedFlagHolder.containsKey(arena) && teamRedFlagHolder.get(arena).equals(playerName)) {
                         teamRedFlagHolder.remove(arena);
                         ultimateGames.getMessageManager().broadcastReplacedGameMessageToArena(game, arena, "Capture", playerName, "Team Blue");
+                        ultimateGames.getPointManager().addPoint(game, playerName, "capture", 1);
+                        ultimateGames.getPointManager().addPoint(game, playerName, "store", 25);
                         for (ArenaScoreboard scoreBoard : ultimateGames.getScoreboardManager().getArenaScoreboards(arena)) {
                             if (scoreBoard.getName().equals("Captures")) {
                                 scoreBoard.setScore(ChatColor.RED + "Team Red", scoreBoard.getScore(ChatColor.RED + "Team Red") + 1);
@@ -345,9 +359,13 @@ public class CaptureTheFlag extends GamePlugin {
                         teamRedFlagHolder.put(arena, playerName);
                         ultimateGames.getMessageManager().broadcastReplacedGameMessageToArena(game, arena, "Pickup", playerName, "Team Blue");
                         player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 6000, 1));
+                        ultimateGames.getPointManager().addPoint(game, playerName, "pickup", 1);
+                        ultimateGames.getPointManager().addPoint(game, playerName, "store", 5);
                     } else if (teamBlue.get(arena).contains(playerName) && teamBlueFlagHolder.containsKey(arena) && teamBlueFlagHolder.get(arena).equals(playerName)) {
                         teamBlueFlagHolder.remove(arena);
                         ultimateGames.getMessageManager().broadcastReplacedGameMessageToArena(game, arena, "Capture", playerName, "Team Red");
+                        ultimateGames.getPointManager().addPoint(game, playerName, "capture", 1);
+                        ultimateGames.getPointManager().addPoint(game, playerName, "store", 25);
                         for (ArenaScoreboard scoreBoard : ultimateGames.getScoreboardManager().getArenaScoreboards(arena)) {
                             if (scoreBoard.getName().equals("Captures")) {
                                 scoreBoard.setScore(ChatColor.BLUE + "Team Blue", scoreBoard.getScore(ChatColor.BLUE + "Team Blue") + 1);
