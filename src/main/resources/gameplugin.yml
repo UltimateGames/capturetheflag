@@ -1,12 +1,12 @@
 main-class: "me.ampayne2.capturetheflag.CaptureTheFlag"
 description: "The official Ultimate Games Capture the Flag game"
-version: "1.0"
+version: "2.0"
 author: "ampayne2"
 scoreTypeName: "Kills:Deaths"
 scoreType: "POINTS_HIGHER"
 playerType: "CONFIGUREABLE"
 DefaultSettings:
-  MinPlayers: 2
+  MinPlayers: 4
   MaxPlayers: 16
   Players:
     Store-Inventory: false
@@ -16,9 +16,8 @@ DefaultSettings:
     Store-Gamemode: false
   Reset-After-Match: true
   Allow-Explosion-Damage: true
-  Allow-Explosion-Block-Breaking: false
-  Allow-Building: false
-  Allow-Breaking: false
+  Allow-Explosion-Block-Breaking: true
+  Use-Whitelist-As-Blacklist: true
 CustomValues:
   StartWaitTime: 30
   GameTime: 1000
@@ -28,8 +27,22 @@ Messages:
   GameEnd: "%s won %s on arena %s!"
   GameTie: "%s and %s tied %s on arena %s!"
   Kill: "%s killed %s!"
+  KillFlagHolder: "%s killed %s's flagholder!"
   Death: "%s died!"
   Team: "You are on team %s!"
   Pickup: "%s picked up %s's flag!"
   Drop: "%s dropped %s's flag!"
   Capture: "%s captured %s's flag!"
+  Attacker: "%s had the most captures!"
+  Defender: "%s killed the most flagholders!"
+  Notaclasstype: "%s is not an existing class!"
+  Classnotunlocked: "You have not unlocked the %s class!"
+  Join: "You are the default class. You may select another with /class [name]"
+  Classchange: "You selected the %s class!"
+  Classchangenextdeath: "You will be changed to the %s next death!"
+BlockPlaceWhitelist:
+- "GLASS"
+- "WOOL"
+BlockBreakWhitelist:
+- "GLASS"
+- "WOOL"
