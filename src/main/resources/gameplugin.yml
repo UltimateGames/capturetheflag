@@ -43,6 +43,8 @@ Messages:
 BlockPlaceWhitelist:
 - "GLASS"
 - "WOOL"
+- "GOLD_BLOCK"
 BlockBreakWhitelist:
 - "GLASS"
 - "WOOL"
+- "GOLD_BLOCK"

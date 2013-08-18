@@ -9,7 +9,6 @@ import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.material.Wool;
 
 public class Builder extends ArenaClass {
 
@@ -23,6 +22,7 @@ public class Builder extends ArenaClass {
         this.game = game;
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void equipPlayer(Player player, Arena arena) {
         player.getInventory().clear();
@@ -35,9 +35,9 @@ public class Builder extends ArenaClass {
         } else {
             dyeColor = DyeColor.WHITE;
         }
-        ItemStack wool = new Wool(dyeColor).toItemStack();
-        wool.setAmount(64);
-        player.getInventory().addItem(wool, new ItemStack(Material.SHEARS), new ItemStack(Material.COOKED_BEEF, 8), ultimateGames.getUtils().createInstructionBook(game));
+        ItemStack blocks = new ItemStack(Material.STAINED_CLAY, 64, dyeColor.getWoolData());
+        player.getInventory().addItem(blocks, new ItemStack(Material.COOKED_BEEF, 8), ultimateGames.getUtils().createInstructionBook(game));
+        player.updateInventory();
     }
 
 }

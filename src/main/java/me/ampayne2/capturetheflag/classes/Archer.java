@@ -19,6 +19,7 @@ public class Archer extends ArenaClass {
         this.game = game;
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void equipPlayer(Player player, Arena arena) {
         player.getInventory().clear();
@@ -30,6 +31,7 @@ public class Archer extends ArenaClass {
         bow.addEnchantment(Enchantment.ARROW_DAMAGE, 2);
         bow.addEnchantment(Enchantment.ARROW_INFINITE, 1);
         player.getInventory().addItem(bow, new ItemStack(Material.ARROW), new ItemStack(Material.COOKED_BEEF, 8), ultimateGames.getUtils().createInstructionBook(game));
+        player.updateInventory();
     }
 
 }

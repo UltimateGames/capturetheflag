@@ -10,7 +10,7 @@ import me.ampayne2.capturetheflag.classes.Archer;
 import me.ampayne2.capturetheflag.classes.ArenaClass;
 import me.ampayne2.capturetheflag.classes.Builder;
 import me.ampayne2.capturetheflag.classes.ClassType;
-import me.ampayne2.capturetheflag.classes.Demolitionist;
+//import me.ampayne2.capturetheflag.classes.Demolitionist;
 import me.ampayne2.capturetheflag.classes.Miner;
 import me.ampayne2.capturetheflag.classes.Warrior;
 import me.ampayne2.ultimategames.UltimateGames;
@@ -26,12 +26,16 @@ import me.ampayne2.ultimategames.signs.UGSign;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
@@ -52,16 +56,21 @@ public class CaptureTheFlag extends GamePlugin {
     private Map<Arena, String> teamRedFlagHolder = new HashMap<Arena, String>();
     private Map<String, ArenaClass> playerClasses = new HashMap<String, ArenaClass>();
     private Map<String, ArenaClass> respawnClasses = new HashMap<String, ArenaClass>();
-    private ArenaClass archer = new Archer(ultimateGames, game);
-    private ArenaClass builder = new Builder(this, ultimateGames, game);
-    private ArenaClass demolitionist = new Demolitionist(ultimateGames, game);
-    private ArenaClass miner = new Miner(ultimateGames, game);
-    private ArenaClass warrior = new Warrior(ultimateGames, game);
+    private ArenaClass archer;
+    private ArenaClass builder;
+    //private ArenaClass demolitionist;
+    private ArenaClass miner;
+    private ArenaClass warrior;
 
     @Override
     public Boolean loadGame(UltimateGames ultimateGames, Game game) {
         this.ultimateGames = ultimateGames;
         this.game = game;
+        archer = new Archer(ultimateGames, game);
+        builder = new Builder(this, ultimateGames, game);
+        //demolitionist = new Demolitionist(ultimateGames, game);
+        miner = new Miner(ultimateGames, game);
+        warrior = new Warrior(ultimateGames, game);
         return true;
     }
 
@@ -255,9 +264,6 @@ public class CaptureTheFlag extends GamePlugin {
             String killerName = null;
             if (killer != null) {
                 killerName = killer.getName();
-                if (ultimateGames.getPlayerManager().isPlayerInArena(killer.getName()) && ultimateGames.getPlayerManager().getPlayerArena(killer.getName()).equals(arena)) {
-                    killer.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 20 * 2, 5));
-                }
                 ultimateGames.getMessageManager().broadcastReplacedGameMessageToArena(game, arena, "Kill", killerName, event.getEntity().getName());
             } else {
                 ultimateGames.getMessageManager().broadcastReplacedGameMessageToArena(game, arena, "Death", event.getEntity().getName());
@@ -320,7 +326,32 @@ public class CaptureTheFlag extends GamePlugin {
     
     @Override
     public void onEntityExplode(Arena arena, EntityExplodeEvent event) {
-        
+        List<Block> blocks = new ArrayList<Block>(event.blockList());
+        for (Block block : blocks) {
+            if (block.getType() == Material.FENCE) {
+                Block blockUnder = block.getRelative(BlockFace.DOWN);
+                while (blockUnder.getType() == Material.FENCE) {
+                    blockUnder = blockUnder.getRelative(BlockFace.DOWN);
+                }
+                if (blockUnder.getType() == Material.GOLD_BLOCK) {
+                    event.blockList().remove(block);
+                }
+            }
+        }
+    }
+    
+    @Override
+    public void onBlockBreak(Arena arena, BlockBreakEvent event) {
+        Block block = event.getBlock();
+        if (block.getType() == Material.FENCE) {
+            Block blockUnder = block.getRelative(BlockFace.DOWN);
+            while (blockUnder.getType() == Material.FENCE) {
+                blockUnder = blockUnder.getRelative(BlockFace.DOWN);
+            }
+            if (blockUnder.getType() == Material.GOLD_BLOCK) {
+                event.setCancelled(true);
+            }
+        }
     }
 
     @Override
@@ -390,8 +421,8 @@ public class CaptureTheFlag extends GamePlugin {
                     arenaClass = archer;
                 } else if (arenaClassType.equals(Builder.class)) {
                     arenaClass = builder;
-                } else if (arenaClassType.equals(Demolitionist.class)) {
-                    arenaClass = demolitionist;
+                //} else if (arenaClassType.equals(Demolitionist.class)) {
+                //    arenaClass = demolitionist;
                 } else if (arenaClassType.equals(Miner.class)) {
                     arenaClass = miner;
                 } else {
@@ -402,6 +433,7 @@ public class CaptureTheFlag extends GamePlugin {
                     ultimateGames.getMessageManager().sendReplacedGameMessage(game, sender.getName(), "Classchangenextdeath", classType.getLabel());
                 } else {
                     playerClasses.put(sender.getName(), arenaClass);
+                    arenaClass.equipPlayer((Player) sender, arena);
                     ultimateGames.getMessageManager().sendReplacedGameMessage(game, sender.getName(), "Classchange", classType.getLabel());
                 }
             }

@@ -7,8 +7,8 @@ import java.util.Map;
 public enum ClassType {
     
     ARCHER(Archer.class, "archer"), 
-    BUILDER(Builder.class, "auilder"), 
-    DEMOLITIONIST(Demolitionist.class, "demolitionist"), 
+    BUILDER(Builder.class, "builder"), 
+    //DEMOLITIONIST(Demolitionist.class, "demolitionist"), 
     MINER(Miner.class, "miner"), 
     WARRIOR(Warrior.class, "warrior");
 

@@ -20,12 +20,14 @@ public class Miner extends ArenaClass {
         this.game = game;
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void equipPlayer(Player player, Arena arena) {
         player.getInventory().clear();
         player.getInventory().setArmorContents(null);
         player.getInventory().addItem(new ItemStack(Material.DIAMOND_PICKAXE), new ItemStack(Material.DIAMOND_SPADE), new ItemStack(Material.COOKED_BEEF, 8), ultimateGames.getUtils().createInstructionBook(game));
         player.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, ultimateGames.getConfigManager().getGameConfig(game).getConfig().getInt("CustomValues.GameTime"), 2));
+        player.updateInventory();
     }
 
 }

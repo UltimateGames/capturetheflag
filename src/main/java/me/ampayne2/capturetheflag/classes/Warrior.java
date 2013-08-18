@@ -19,6 +19,7 @@ public class Warrior extends ArenaClass {
         this.game = game;
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void equipPlayer(Player player, Arena arena) {
         player.getInventory().clear();
@@ -29,6 +30,7 @@ public class Warrior extends ArenaClass {
         ItemStack sword = new ItemStack(Material.IRON_SWORD);
         sword.addEnchantment(Enchantment.DAMAGE_ALL, 1);
         player.getInventory().addItem(sword, new ItemStack(Material.COOKED_BEEF, 8), ultimateGames.getUtils().createInstructionBook(game));
+        player.updateInventory();
     }
 
 }
