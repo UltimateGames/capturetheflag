@@ -17,6 +17,7 @@ DefaultSettings:
   Reset-After-Match: true
   Allow-Explosion-Damage: true
   Allow-Explosion-Block-Breaking: true
+  Allow-Mob-Spawning: false
   Use-Whitelist-As-Blacklist: true
 CustomValues:
   StartWaitTime: 30
@@ -30,16 +31,19 @@ Messages:
   KillFlagHolder: "%s killed %s's flagholder!"
   Death: "%s died!"
   Team: "You are on team %s!"
-  Pickup: "%s picked up %s's flag!"
-  Drop: "%s dropped %s's flag!"
-  Capture: "%s captured %s's flag!"
+  Pickup: "&4%s picked up %s's flag!"
+  Drop: "&4%s dropped %s's flag!"
+  Capture: "&4%s captured %s's flag!"
   Attacker: "%s had the most captures!"
   Defender: "%s killed the most flagholders!"
   Notaclasstype: "%s is not an existing class!"
+  Notateam: "%s is not an existing team! Choose between blue and red."
   Classnotunlocked: "You have not unlocked the %s class!"
   Join: "You are the default class. You may select another with /class [name]"
   Classchange: "You selected the %s class!"
   Classchangenextdeath: "You will be changed to the %s next death!"
+  Teamchange: "You joined team %s!"
+  Teamfull: "Cannot join team %s!"
 BlockPlaceWhitelist:
 - "GLASS"
 - "WOOL"

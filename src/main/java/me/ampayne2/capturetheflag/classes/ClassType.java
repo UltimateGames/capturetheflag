@@ -9,7 +9,6 @@ public enum ClassType {
     ARCHER(Archer.class, "archer"), 
     BUILDER(Builder.class, "builder"), 
     //DEMOLITIONIST(Demolitionist.class, "demolitionist"), 
-    MINER(Miner.class, "miner"), 
     WARRIOR(Warrior.class, "warrior");
 
     private static final Map<Class<? extends ArenaClass>, ClassType> classTypes = new HashMap<Class<? extends ArenaClass>, ClassType>();

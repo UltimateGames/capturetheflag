@@ -36,7 +36,7 @@ public class Builder extends ArenaClass {
             dyeColor = DyeColor.WHITE;
         }
         ItemStack blocks = new ItemStack(Material.STAINED_CLAY, 64, dyeColor.getWoolData());
-        player.getInventory().addItem(blocks, new ItemStack(Material.COOKED_BEEF, 8), ultimateGames.getUtils().createInstructionBook(game));
+        player.getInventory().addItem(blocks, new ItemStack(Material.DIAMOND_PICKAXE), new ItemStack(Material.DIAMOND_SPADE), new ItemStack(Material.COOKED_BEEF, 8), ultimateGames.getUtils().createInstructionBook(game));
         player.updateInventory();
     }
 
