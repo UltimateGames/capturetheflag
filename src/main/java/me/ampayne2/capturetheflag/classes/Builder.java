@@ -1,36 +1,39 @@
 package me.ampayne2.capturetheflag.classes;
 
-import me.ampayne2.capturetheflag.CaptureTheFlag;
 import me.ampayne2.ultimategames.UltimateGames;
 import me.ampayne2.ultimategames.arenas.Arena;
+import me.ampayne2.ultimategames.classes.GameClass;
 import me.ampayne2.ultimategames.games.Game;
+import me.ampayne2.ultimategames.teams.TeamManager;
 
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-public class Builder extends ArenaClass {
-
-    private CaptureTheFlag captureTheFlag;
+public class Builder extends GameClass {
+    
     private UltimateGames ultimateGames;
     private Game game;
     
-    public Builder(CaptureTheFlag captureTheFlag, UltimateGames ultimateGames, Game game) {
-        this.captureTheFlag = captureTheFlag;
+    public Builder(UltimateGames ultimateGames, Game game, String name, boolean canSwitchToWithoutDeath) {
+        super(ultimateGames, game, name, canSwitchToWithoutDeath);
         this.ultimateGames = ultimateGames;
         this.game = game;
     }
 
     @SuppressWarnings("deprecation")
     @Override
-    public void equipPlayer(Player player, Arena arena) {
+    public void resetInventory(Player player) {
+        String playerName = player.getName();
+        Arena arena = ultimateGames.getPlayerManager().getPlayerArena(playerName);
         player.getInventory().clear();
         player.getInventory().setArmorContents(null);
         DyeColor dyeColor;
-        if (captureTheFlag.isPlayerTeamBlue(arena, player.getName())) {
+        TeamManager teamManager = ultimateGames.getTeamManager();
+        if (teamManager.getTeam(arena, "Blue").hasPlayer(playerName)) {
             dyeColor = DyeColor.BLUE;
-        } else if (captureTheFlag.isPlayerTeamRed(arena, player.getName())) {
+        } else if (teamManager.getTeam(arena, "Red").hasPlayer(playerName)) {
             dyeColor = DyeColor.RED;
         } else {
             dyeColor = DyeColor.WHITE;

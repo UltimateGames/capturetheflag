@@ -25,14 +25,13 @@ public class CaptureTheFlagWebHandler implements WebHandler {
         Gson gson = new Gson();
         
         Map<String, Integer> map = new HashMap<String, Integer>();
-
-        for (ArenaScoreboard scoreBoard : ug.getScoreboardManager().getArenaScoreboards(arena)) {
-            if (scoreBoard.getName().equals("Captures")) {
-                map.put("Team Blue", scoreBoard.getScore(ChatColor.BLUE + "Team Blue"));
-                map.put("Team Red", scoreBoard.getScore(ChatColor.RED + "Team Red"));
-                break;
-            }
+        
+        ArenaScoreboard scoreBoard = ug.getScoreboardManager().getArenaScoreboard(arena);
+        if (scoreBoard != null) {
+            map.put("Team Blue", scoreBoard.getScore(ChatColor.BLUE + "Team Blue"));
+            map.put("Team Red", scoreBoard.getScore(ChatColor.RED + "Team Red"));
         }
+        
         return gson.toJson(map);
     }
 }

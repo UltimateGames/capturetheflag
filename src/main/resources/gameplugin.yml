@@ -39,10 +39,6 @@ Messages:
   Notaclasstype: "%s is not an existing class!"
   Notateam: "%s is not an existing team! Choose between blue and red."
   Classnotunlocked: "You have not unlocked the %s class!"
-  Join: "You are the default class. You may select another with /class [name]"
-  Classchange: "You selected the %s class!"
-  Classchangenextdeath: "You will be changed to the %s next death!"
-  Teamchange: "You joined team %s!"
   Teamfull: "Cannot join team %s!"
 BlockPlaceWhitelist:
 - "GLASS"
