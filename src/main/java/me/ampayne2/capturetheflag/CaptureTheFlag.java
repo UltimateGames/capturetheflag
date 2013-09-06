@@ -116,16 +116,19 @@ public class CaptureTheFlag extends GamePlugin {
         TeamManager teamManager = ultimateGames.getTeamManager();
         teamManager.sortPlayersIntoTeams(arena);
         for (String playerName : teamManager.getTeam(arena, "Blue").getPlayers()) {
+            Player player = Bukkit.getPlayerExact(playerName);
+            scoreBoard.addPlayer(player);
             SpawnPoint spawnPoint = ultimateGames.getSpawnpointManager().getSpawnPoint(arena, 0);
             spawnPoint.lock(false);
-            spawnPoint.teleportPlayer(Bukkit.getPlayerExact(playerName));
+            spawnPoint.teleportPlayer(player);
         }
         for (String playerName : teamManager.getTeam(arena, "Red").getPlayers()) {
+            Player player = Bukkit.getPlayerExact(playerName);
+            scoreBoard.addPlayer(player);
             SpawnPoint spawnPoint = ultimateGames.getSpawnpointManager().getSpawnPoint(arena, 1);
             spawnPoint.lock(false);
-            spawnPoint.teleportPlayer(Bukkit.getPlayerExact(playerName));
+            spawnPoint.teleportPlayer(player);
         }
-
         return true;
     }
 
@@ -175,9 +178,7 @@ public class CaptureTheFlag extends GamePlugin {
         player.setHealth(20.0);
         player.setFoodLevel(20);
 
-        ultimateGames.getMessageManager().sendGameMessage(game, player, "Join");
-
-        warrior.addPlayerToClass(player);
+        warrior.addPlayerToClass(player, true);
         return true;
     }
 
@@ -193,7 +194,6 @@ public class CaptureTheFlag extends GamePlugin {
             Team team = teamManager.getPlayerTeam(playerName);
             if (team != null) {
                 team.addPlayer(newPlayer);
-                ultimateGames.getScoreboardManager().getArenaScoreboard(arena).setPlayerColor(newPlayer, team.getColor());
             }
         }
         if (teamBlueFlagHolder.containsKey(arena) && teamBlueFlagHolder.get(arena).equals(playerName)) {
@@ -202,7 +202,7 @@ public class CaptureTheFlag extends GamePlugin {
         if (teamRedFlagHolder.containsKey(arena) && teamRedFlagHolder.get(arena).equals(playerName)) {
             teamRedFlagHolder.remove(arena);
         }
-        if (teamManager.getTeam(arena, "Red").getPlayers().size() <= 0 || teamManager.getTeam(arena, "Blue").getPlayers().size() <= 0) {
+        if (arena.getStatus() == ArenaStatus.RUNNING && (teamManager.getTeam(arena, "Red").getPlayers().size() <= 0 || teamManager.getTeam(arena, "Blue").getPlayers().size() <= 0)) {
             ultimateGames.getArenaManager().endArena(arena);
         }
         return;
