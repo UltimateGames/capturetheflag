@@ -44,7 +44,9 @@ BlockPlaceWhitelist:
 - "GLASS"
 - "WOOL"
 - "GOLD_BLOCK"
+- "IRON_DOOR_BLOCK"
 BlockBreakWhitelist:
 - "GLASS"
 - "WOOL"
 - "GOLD_BLOCK"
+- "IRON_DOOR_BLOCK"

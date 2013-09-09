@@ -113,21 +113,28 @@ public class CaptureTheFlag extends GamePlugin {
         scoreBoard.setScore(ChatColor.RED + "Team Red", 0);
         scoreBoard.setVisible(true);
 
+        ClassManager classManager = ultimateGames.getClassManager();
         TeamManager teamManager = ultimateGames.getTeamManager();
         teamManager.sortPlayersIntoTeams(arena);
-        for (String playerName : teamManager.getTeam(arena, "Blue").getPlayers()) {
+        Team blue = teamManager.getTeam(arena, "Blue");
+        Team red = teamManager.getTeam(arena, "Red");
+        for (String playerName : blue.getPlayers()) {
             Player player = Bukkit.getPlayerExact(playerName);
             scoreBoard.addPlayer(player);
             SpawnPoint spawnPoint = ultimateGames.getSpawnpointManager().getSpawnPoint(arena, 0);
             spawnPoint.lock(false);
             spawnPoint.teleportPlayer(player);
+            blue.setPlayerColorToTeamColor(player);
+            classManager.getPlayerClass(game, playerName).resetInventory(player);
         }
-        for (String playerName : teamManager.getTeam(arena, "Red").getPlayers()) {
+        for (String playerName : red.getPlayers()) {
             Player player = Bukkit.getPlayerExact(playerName);
             scoreBoard.addPlayer(player);
             SpawnPoint spawnPoint = ultimateGames.getSpawnpointManager().getSpawnPoint(arena, 1);
             spawnPoint.lock(false);
             spawnPoint.teleportPlayer(player);
+            red.setPlayerColorToTeamColor(player);
+            classManager.getPlayerClass(game, playerName).resetInventory(player);
         }
         return true;
     }
@@ -351,7 +358,7 @@ public class CaptureTheFlag extends GamePlugin {
                         teamBlueFlagHolder.remove(arena);
                         ultimateGames.getMessageManager().broadcastReplacedGameMessageToArena(game, arena, "Capture", playerName, "Team Red");
                         ArenaScoreboard scoreBoard = ultimateGames.getScoreboardManager().getArenaScoreboard(arena);
-                        scoreBoard.setScore(ChatColor.BLUE + "Team Red", scoreBoard.getScore(ChatColor.BLUE + "Team Blue") + 1);
+                        scoreBoard.setScore(ChatColor.BLUE + "Team Blue", scoreBoard.getScore(ChatColor.BLUE + "Team Blue") + 1);
                         if (player.hasPotionEffect(PotionEffectType.SLOW)) {
                             player.removePotionEffect(PotionEffectType.SLOW);
                         }
@@ -381,7 +388,7 @@ public class CaptureTheFlag extends GamePlugin {
             if (teamName.equals("blue")) {
                 Team team = teamManager.getTeam(arena, "Blue");
                 if (team.hasSpace()) {
-                    team.addPlayer(player);
+                    teamManager.setPlayerTeam(player, team);
                     SpawnPoint spawnPoint = ultimateGames.getSpawnpointManager().getSpawnPoint(arena, 0);
                     spawnPoint.lock(false);
                     spawnPoint.teleportPlayer(player);
@@ -391,8 +398,8 @@ public class CaptureTheFlag extends GamePlugin {
             } else if (teamName.equals("red")) {
                 Team team = teamManager.getTeam(arena, "Red");
                 if (team.hasSpace()) {
-                    team.addPlayer(player);
-                    SpawnPoint spawnPoint = ultimateGames.getSpawnpointManager().getSpawnPoint(arena, 0);
+                    teamManager.setPlayerTeam(player, team);
+                    SpawnPoint spawnPoint = ultimateGames.getSpawnpointManager().getSpawnPoint(arena, 1);
                     spawnPoint.lock(false);
                     spawnPoint.teleportPlayer(player);
                 } else {
