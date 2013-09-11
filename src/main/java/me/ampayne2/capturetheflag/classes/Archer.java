@@ -13,7 +13,7 @@ public class Archer extends GameClass {
 
     private UltimateGames ultimateGames;
     private Game game;
-    
+
     public Archer(UltimateGames ultimateGames, Game game, String name, boolean canSwitchToWithoutDeath) {
         super(ultimateGames, game, name, canSwitchToWithoutDeath);
         this.ultimateGames = ultimateGames;
@@ -25,7 +25,8 @@ public class Archer extends GameClass {
     public void resetInventory(Player player) {
         player.getInventory().clear();
         player.getInventory().setArmorContents(null);
-        player.getInventory().setArmorContents(
+        player.getInventory()
+                .setArmorContents(
                         new ItemStack[] { new ItemStack(Material.LEATHER_BOOTS), new ItemStack(Material.LEATHER_LEGGINGS), new ItemStack(Material.LEATHER_CHESTPLATE),
                                 new ItemStack(Material.LEATHER_HELMET) });
         ItemStack bow = new ItemStack(Material.BOW);

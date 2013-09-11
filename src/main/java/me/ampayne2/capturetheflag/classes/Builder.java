@@ -12,10 +12,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 public class Builder extends GameClass {
-    
+
     private UltimateGames ultimateGames;
     private Game game;
-    
+
     public Builder(UltimateGames ultimateGames, Game game, String name, boolean canSwitchToWithoutDeath) {
         super(ultimateGames, game, name, canSwitchToWithoutDeath);
         this.ultimateGames = ultimateGames;
@@ -39,7 +39,8 @@ public class Builder extends GameClass {
             dyeColor = DyeColor.WHITE;
         }
         ItemStack blocks = new ItemStack(Material.STAINED_CLAY, 64, dyeColor.getWoolData());
-        player.getInventory().addItem(blocks, new ItemStack(Material.DIAMOND_PICKAXE), new ItemStack(Material.DIAMOND_SPADE), new ItemStack(Material.COOKED_BEEF, 8), ultimateGames.getUtils().createInstructionBook(game));
+        player.getInventory().addItem(blocks, new ItemStack(Material.DIAMOND_PICKAXE), new ItemStack(Material.DIAMOND_SPADE), new ItemStack(Material.COOKED_BEEF, 8),
+                ultimateGames.getUtils().createInstructionBook(game));
         player.updateInventory();
     }
 

@@ -10,7 +10,7 @@ import me.ampayne2.capturetheflag.classes.Warrior;
 import me.ampayne2.ultimategames.UltimateGames;
 import me.ampayne2.ultimategames.api.GamePlugin;
 import me.ampayne2.ultimategames.arenas.Arena;
-import me.ampayne2.ultimategames.arenas.SpawnPoint;
+import me.ampayne2.ultimategames.arenas.PlayerSpawnPoint;
 import me.ampayne2.ultimategames.classes.ClassManager;
 import me.ampayne2.ultimategames.classes.GameClass;
 import me.ampayne2.ultimategames.enums.ArenaStatus;
@@ -121,7 +121,7 @@ public class CaptureTheFlag extends GamePlugin {
         for (String playerName : blue.getPlayers()) {
             Player player = Bukkit.getPlayerExact(playerName);
             scoreBoard.addPlayer(player);
-            SpawnPoint spawnPoint = ultimateGames.getSpawnpointManager().getSpawnPoint(arena, 0);
+            PlayerSpawnPoint spawnPoint = ultimateGames.getSpawnpointManager().getSpawnPoint(arena, 0);
             spawnPoint.lock(false);
             spawnPoint.teleportPlayer(player);
             blue.setPlayerColorToTeamColor(player);
@@ -130,7 +130,7 @@ public class CaptureTheFlag extends GamePlugin {
         for (String playerName : red.getPlayers()) {
             Player player = Bukkit.getPlayerExact(playerName);
             scoreBoard.addPlayer(player);
-            SpawnPoint spawnPoint = ultimateGames.getSpawnpointManager().getSpawnPoint(arena, 1);
+            PlayerSpawnPoint spawnPoint = ultimateGames.getSpawnpointManager().getSpawnPoint(arena, 1);
             spawnPoint.lock(false);
             spawnPoint.teleportPlayer(player);
             red.setPlayerColorToTeamColor(player);
@@ -179,9 +179,12 @@ public class CaptureTheFlag extends GamePlugin {
         if (arena.getStatus() == ArenaStatus.OPEN && arena.getPlayers().size() >= arena.getMinPlayers() && !ultimateGames.getCountdownManager().isStartingCountdownEnabled(arena)) {
             ultimateGames.getCountdownManager().createStartingCountdown(arena, ultimateGames.getConfigManager().getGameConfig(game).getConfig().getInt("CustomValues.StartWaitTime"));
         }
-        SpawnPoint spawnPoint = ultimateGames.getSpawnpointManager().getRandomSpawnPoint(arena);
+        PlayerSpawnPoint spawnPoint = ultimateGames.getSpawnpointManager().getRandomSpawnPoint(arena);
         spawnPoint.lock(false);
         spawnPoint.teleportPlayer(player);
+        for (PotionEffect potionEffect : player.getActivePotionEffects()) {
+            player.removePotionEffect(potionEffect.getType());
+        }
         player.setHealth(20.0);
         player.setFoodLevel(20);
 
@@ -218,9 +221,10 @@ public class CaptureTheFlag extends GamePlugin {
     @SuppressWarnings("deprecation")
     @Override
     public Boolean addSpectator(Player player, Arena arena) {
-        SpawnPoint spawnPoint = ultimateGames.getSpawnpointManager().getRandomSpawnPoint(arena);
-        spawnPoint.lock(false);
-        spawnPoint.teleportPlayer(player);
+        ultimateGames.getSpawnpointManager().getSpectatorSpawnPoint(arena).teleportPlayer(player);
+        for (PotionEffect potionEffect : player.getActivePotionEffects()) {
+            player.removePotionEffect(potionEffect.getType());
+        }
         player.setHealth(20.0);
         player.setFoodLevel(20);
         player.getInventory().clear();
@@ -389,7 +393,7 @@ public class CaptureTheFlag extends GamePlugin {
                 Team team = teamManager.getTeam(arena, "Blue");
                 if (team.hasSpace()) {
                     teamManager.setPlayerTeam(player, team);
-                    SpawnPoint spawnPoint = ultimateGames.getSpawnpointManager().getSpawnPoint(arena, 0);
+                    PlayerSpawnPoint spawnPoint = ultimateGames.getSpawnpointManager().getSpawnPoint(arena, 0);
                     spawnPoint.lock(false);
                     spawnPoint.teleportPlayer(player);
                 } else {
@@ -399,7 +403,7 @@ public class CaptureTheFlag extends GamePlugin {
                 Team team = teamManager.getTeam(arena, "Red");
                 if (team.hasSpace()) {
                     teamManager.setPlayerTeam(player, team);
-                    SpawnPoint spawnPoint = ultimateGames.getSpawnpointManager().getSpawnPoint(arena, 1);
+                    PlayerSpawnPoint spawnPoint = ultimateGames.getSpawnpointManager().getSpawnPoint(arena, 1);
                     spawnPoint.lock(false);
                     spawnPoint.teleportPlayer(player);
                 } else {

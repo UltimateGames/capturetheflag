@@ -13,7 +13,7 @@ public class Warrior extends GameClass {
 
     private UltimateGames ultimateGames;
     private Game game;
-    
+
     public Warrior(UltimateGames ultimateGames, Game game, String name, boolean canSwitchToWithoutDeath) {
         super(ultimateGames, game, name, canSwitchToWithoutDeath);
         this.ultimateGames = ultimateGames;
@@ -26,8 +26,7 @@ public class Warrior extends GameClass {
         player.getInventory().clear();
         player.getInventory().setArmorContents(null);
         player.getInventory().setArmorContents(
-                        new ItemStack[] { new ItemStack(Material.IRON_BOOTS), new ItemStack(Material.IRON_LEGGINGS), new ItemStack(Material.IRON_CHESTPLATE),
-                                new ItemStack(Material.IRON_HELMET) });
+                new ItemStack[] { new ItemStack(Material.IRON_BOOTS), new ItemStack(Material.IRON_LEGGINGS), new ItemStack(Material.IRON_CHESTPLATE), new ItemStack(Material.IRON_HELMET) });
         ItemStack sword = new ItemStack(Material.IRON_SWORD);
         sword.addEnchantment(Enchantment.DAMAGE_ALL, 1);
         player.getInventory().addItem(sword, new ItemStack(Material.COOKED_BEEF, 8), ultimateGames.getUtils().createInstructionBook(game));
