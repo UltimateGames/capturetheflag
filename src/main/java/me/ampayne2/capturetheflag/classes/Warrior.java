@@ -4,6 +4,7 @@ import me.ampayne2.ultimategames.UltimateGames;
 import me.ampayne2.ultimategames.classes.GameClass;
 import me.ampayne2.ultimategames.games.Game;
 
+import me.ampayne2.ultimategames.utils.UGUtils;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -29,7 +30,7 @@ public class Warrior extends GameClass {
                 new ItemStack[] { new ItemStack(Material.IRON_BOOTS), new ItemStack(Material.IRON_LEGGINGS), new ItemStack(Material.IRON_CHESTPLATE), new ItemStack(Material.IRON_HELMET) });
         ItemStack sword = new ItemStack(Material.IRON_SWORD);
         sword.addEnchantment(Enchantment.DAMAGE_ALL, 1);
-        player.getInventory().addItem(sword, new ItemStack(Material.COOKED_BEEF, 8), ultimateGames.getUtils().createInstructionBook(game));
+        player.getInventory().addItem(sword, new ItemStack(Material.COOKED_BEEF, 8), UGUtils.createInstructionBook(game));
         player.updateInventory();
     }
 

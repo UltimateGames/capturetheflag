@@ -6,6 +6,7 @@ import me.ampayne2.ultimategames.classes.GameClass;
 import me.ampayne2.ultimategames.games.Game;
 import me.ampayne2.ultimategames.teams.TeamManager;
 
+import me.ampayne2.ultimategames.utils.UGUtils;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -40,7 +41,7 @@ public class Builder extends GameClass {
         }
         ItemStack blocks = new ItemStack(Material.STAINED_CLAY, 64, dyeColor.getWoolData());
         player.getInventory().addItem(blocks, new ItemStack(Material.DIAMOND_PICKAXE), new ItemStack(Material.DIAMOND_SPADE), new ItemStack(Material.COOKED_BEEF, 8),
-                ultimateGames.getUtils().createInstructionBook(game));
+                UGUtils.createInstructionBook(game));
         player.updateInventory();
     }
 

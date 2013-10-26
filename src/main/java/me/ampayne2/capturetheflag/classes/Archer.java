@@ -4,6 +4,7 @@ import me.ampayne2.ultimategames.UltimateGames;
 import me.ampayne2.ultimategames.classes.GameClass;
 import me.ampayne2.ultimategames.games.Game;
 
+import me.ampayne2.ultimategames.utils.UGUtils;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -32,7 +33,7 @@ public class Archer extends GameClass {
         ItemStack bow = new ItemStack(Material.BOW);
         bow.addEnchantment(Enchantment.ARROW_DAMAGE, 2);
         bow.addEnchantment(Enchantment.ARROW_INFINITE, 1);
-        player.getInventory().addItem(bow, new ItemStack(Material.ARROW), new ItemStack(Material.COOKED_BEEF, 8), ultimateGames.getUtils().createInstructionBook(game));
+        player.getInventory().addItem(bow, new ItemStack(Material.ARROW), new ItemStack(Material.COOKED_BEEF, 8), UGUtils.createInstructionBook(game));
         player.updateInventory();
     }
 
