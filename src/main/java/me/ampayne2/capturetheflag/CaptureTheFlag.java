@@ -4,25 +4,26 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import me.ampayne2.capturetheflag.classes.Archer;
 import me.ampayne2.capturetheflag.classes.Builder;
 import me.ampayne2.capturetheflag.classes.Warrior;
 import me.ampayne2.ultimategames.UltimateGames;
 import me.ampayne2.ultimategames.api.GamePlugin;
 import me.ampayne2.ultimategames.arenas.Arena;
-import me.ampayne2.ultimategames.arenas.PlayerSpawnPoint;
-import me.ampayne2.ultimategames.classes.GameClass;
-import me.ampayne2.ultimategames.classes.GameClassManager;
-import me.ampayne2.ultimategames.enums.ArenaStatus;
-import me.ampayne2.ultimategames.enums.SignType;
+import me.ampayne2.ultimategames.arenas.ArenaStatus;
+import me.ampayne2.ultimategames.arenas.scoreboards.ArenaScoreboard;
+import me.ampayne2.ultimategames.arenas.spawnpoints.PlayerSpawnPoint;
 import me.ampayne2.ultimategames.games.Game;
-import me.ampayne2.ultimategames.scoreboards.ArenaScoreboard;
+import me.ampayne2.ultimategames.players.classes.GameClass;
+import me.ampayne2.ultimategames.players.classes.GameClassManager;
+import me.ampayne2.ultimategames.players.teams.Team;
+import me.ampayne2.ultimategames.players.teams.TeamManager;
 import me.ampayne2.ultimategames.signs.ClickInputSign;
+import me.ampayne2.ultimategames.signs.SignType;
 import me.ampayne2.ultimategames.signs.UGSign;
-import me.ampayne2.ultimategames.teams.Team;
-import me.ampayne2.ultimategames.teams.TeamManager;
-
 import me.ampayne2.ultimategames.utils.UGUtils;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -59,9 +60,9 @@ public class CaptureTheFlag extends GamePlugin {
         archer = new Archer(ultimateGames, game, "Archer", false);
         builder = new Builder(ultimateGames, game, "Builder", false);
         warrior = new Warrior(ultimateGames, game, "Warrior", false);
-        classManager.addGameClass(archer);
-        classManager.addGameClass(builder);
-        classManager.addGameClass(warrior);
+        classManager.registerGameClass(archer);
+        classManager.registerGameClass(builder);
+        classManager.registerGameClass(warrior);
         return true;
     }
 
@@ -197,7 +198,7 @@ public class CaptureTheFlag extends GamePlugin {
         player.setHealth(20.0);
         player.setFoodLevel(20);
 
-        warrior.addPlayerToClass(player, true);
+        warrior.addPlayer(player, true);
         return true;
     }
 
@@ -405,11 +406,11 @@ public class CaptureTheFlag extends GamePlugin {
         if (command.equals("class") && args.length == 1) {
             String className = args[0].toLowerCase();
             if (className.equals("archer")) {
-                archer.addPlayerToClass(player);
+                archer.addPlayer(player);
             } else if (className.equals("builder")) {
-                builder.addPlayerToClass(player);
+                builder.addPlayer(player);
             } else if (className.equals("warrior")) {
-                warrior.addPlayerToClass(player);
+                warrior.addPlayer(player);
             } else {
                 ultimateGames.getMessageManager().sendGameMessage(sender, game, "Notaclasstype", className);
             }

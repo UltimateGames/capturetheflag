@@ -2,10 +2,10 @@ package me.ampayne2.capturetheflag.classes;
 
 import me.ampayne2.ultimategames.UltimateGames;
 import me.ampayne2.ultimategames.arenas.Arena;
-import me.ampayne2.ultimategames.classes.GameClass;
 import me.ampayne2.ultimategames.games.Game;
-import me.ampayne2.ultimategames.teams.TeamManager;
 
+import me.ampayne2.ultimategames.players.classes.GameClass;
+import me.ampayne2.ultimategames.players.teams.TeamManager;
 import me.ampayne2.ultimategames.utils.UGUtils;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
