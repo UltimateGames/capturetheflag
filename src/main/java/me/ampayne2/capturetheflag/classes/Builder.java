@@ -12,7 +12,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-public class Builder extends GameClass {
+public class Builder extends CTFClass {
 
     private UltimateGames ultimateGames;
     private Game game;
@@ -29,6 +29,7 @@ public class Builder extends GameClass {
         String playerName = player.getName();
         Arena arena = ultimateGames.getPlayerManager().getPlayerArena(playerName);
         player.getInventory().clear();
+        super.resetInventory(player);
         player.getInventory().setArmorContents(null);
         DyeColor dyeColor;
         TeamManager teamManager = ultimateGames.getTeamManager();

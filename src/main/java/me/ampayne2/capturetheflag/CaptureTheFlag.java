@@ -51,6 +51,7 @@ public class CaptureTheFlag extends GamePlugin {
     private Warrior warrior;
     private Map<Arena, String> teamBlueFlagHolder = new HashMap<Arena, String>();
     private Map<Arena, String> teamRedFlagHolder = new HashMap<Arena, String>();
+    private Map<String, Integer> playerSpeedPerk = new HashMap<String, Integer>();
 
     @Override
     public boolean loadGame(UltimateGames ultimateGames, Game game) {
@@ -199,6 +200,15 @@ public class CaptureTheFlag extends GamePlugin {
         player.setFoodLevel(20);
 
         warrior.addPlayer(player, true);
+        if (ultimateGames.getPointManager().hasPerk(game, player.getName(), "speedpotion4")) {
+            playerSpeedPerk.put(player.getName(), 4);
+        } else if (ultimateGames.getPointManager().hasPerk(game, player.getName(), "speedpotion3")) {
+            playerSpeedPerk.put(player.getName(), 3);
+        } else if (ultimateGames.getPointManager().hasPerk(game, player.getName(), "speedpotion2")) {
+            playerSpeedPerk.put(player.getName(), 2);
+        } else if (ultimateGames.getPointManager().hasPerk(game, player.getName(), "speedpotion1")) {
+            playerSpeedPerk.put(player.getName(), 1);
+        }
         return true;
     }
 
@@ -440,7 +450,11 @@ public class CaptureTheFlag extends GamePlugin {
             } else {
                 ultimateGames.getMessageManager().sendGameMessage(sender, game, "Notateam", teamName);
             }
+
         }
     }
 
+    public Map<String, Integer> getPlayerSpeedPerk() {
+        return playerSpeedPerk;
+    }
 }

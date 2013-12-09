@@ -10,7 +10,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-public class Warrior extends GameClass {
+public class Warrior extends CTFClass {
 
     private UltimateGames ultimateGames;
     private Game game;
@@ -25,6 +25,7 @@ public class Warrior extends GameClass {
     @Override
     public void resetInventory(Player player) {
         player.getInventory().clear();
+        super.resetInventory(player);
         player.getInventory().setArmorContents(null);
         player.getInventory().setArmorContents(
                 new ItemStack[] { new ItemStack(Material.IRON_BOOTS), new ItemStack(Material.IRON_LEGGINGS), new ItemStack(Material.IRON_CHESTPLATE), new ItemStack(Material.IRON_HELMET) });

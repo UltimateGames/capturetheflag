@@ -10,7 +10,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-public class Archer extends GameClass {
+public class Archer extends CTFClass {
 
     private UltimateGames ultimateGames;
     private Game game;
@@ -25,6 +25,7 @@ public class Archer extends GameClass {
     @Override
     public void resetInventory(Player player) {
         player.getInventory().clear();
+        super.resetInventory(player);
         player.getInventory().setArmorContents(null);
         player.getInventory()
                 .setArmorContents(
