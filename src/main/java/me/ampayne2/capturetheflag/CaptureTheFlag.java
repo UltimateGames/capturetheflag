@@ -38,6 +38,7 @@ import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -456,5 +457,17 @@ public class CaptureTheFlag extends GamePlugin {
 
     public Map<String, Integer> getPlayerSpeedPerk() {
         return playerSpeedPerk;
+    }
+
+    @Override
+    public void onPlayerItemConsume(Arena arena, PlayerItemConsumeEvent event) {
+        if (event.getItem().getType().equals(Material.POTION)) {
+            int amount = playerSpeedPerk.get(event.getPlayer().getName()) - 1;
+            if (amount <= 0) {
+                playerSpeedPerk.remove(event.getPlayer().getName());
+            } else {
+                playerSpeedPerk.put(event.getPlayer().getName(), amount);
+            }
+        }
     }
 }
