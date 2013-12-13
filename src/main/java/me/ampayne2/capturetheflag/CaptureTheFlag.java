@@ -388,6 +388,9 @@ public class CaptureTheFlag extends GamePlugin {
                         if (player.hasPotionEffect(PotionEffectType.SLOW)) {
                             player.removePotionEffect(PotionEffectType.SLOW);
                         }
+                        if (scoreBoard.getScore(ChatColor.RED + "Team Red") == 3) {
+                            ultimateGames.getArenaManager().endArena(arena);
+                        }
                     }
                 } else if (inputSign.getLabel().equals("TeamBlueFlag")) {
                     if (teamManager.getTeam(arena, "Red").hasPlayer(playerName) && !teamRedFlagHolder.containsKey(arena)) {
@@ -408,6 +411,10 @@ public class CaptureTheFlag extends GamePlugin {
                         ultimateGames.getPointManager().addPoint(game, player.getName(), "store", 25);
                         if (player.hasPotionEffect(PotionEffectType.SLOW)) {
                             player.removePotionEffect(PotionEffectType.SLOW);
+                        }
+
+                        if (scoreBoard.getScore(ChatColor.BLUE + "Team Blue") == 3) {
+                            ultimateGames.getArenaManager().endArena(arena);
                         }
                     }
                 }
