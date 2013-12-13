@@ -379,9 +379,11 @@ public class CaptureTheFlag extends GamePlugin {
                         ArenaScoreboard scoreBoard = ultimateGames.getScoreboardManager().getArenaScoreboard(arena);
                         scoreBoard.setScore(ChatColor.RED + "Team Red", scoreBoard.getScore(ChatColor.RED + "Team Red") + 1);
                         for (String players : ultimateGames.getTeamManager().getTeam(arena, "Red").getPlayers()) {
-                            ultimateGames.getPointManager().addPoint(game, players, "capture", 1);
-                            ultimateGames.getPointManager().addPoint(game, players, "store", 20);
+                            if (!players.equals(player.getName())) {
+                                ultimateGames.getPointManager().addPoint(game, players, "store", 20);
+                            }
                         }
+                        ultimateGames.getPointManager().addPoint(game, player.getName(), "capture", 1);
                         ultimateGames.getPointManager().addPoint(game, player.getName(), "store", 25);
                         if (player.hasPotionEffect(PotionEffectType.SLOW)) {
                             player.removePotionEffect(PotionEffectType.SLOW);
@@ -398,9 +400,11 @@ public class CaptureTheFlag extends GamePlugin {
                         ArenaScoreboard scoreBoard = ultimateGames.getScoreboardManager().getArenaScoreboard(arena);
                         scoreBoard.setScore(ChatColor.BLUE + "Team Blue", scoreBoard.getScore(ChatColor.BLUE + "Team Blue") + 1);
                         for (String players : ultimateGames.getTeamManager().getTeam(arena, "Blue").getPlayers()) {
-                            ultimateGames.getPointManager().addPoint(game, players, "store", 20);
-                            ultimateGames.getPointManager().addPoint(game, players, "capture", 1);
+                            if (!players.equals(player.getName())) {
+                                ultimateGames.getPointManager().addPoint(game, players, "store", 20);
+                            }
                         }
+                        ultimateGames.getPointManager().addPoint(game, player.getName(), "capture", 1);
                         ultimateGames.getPointManager().addPoint(game, player.getName(), "store", 25);
                         if (player.hasPotionEffect(PotionEffectType.SLOW)) {
                             player.removePotionEffect(PotionEffectType.SLOW);
