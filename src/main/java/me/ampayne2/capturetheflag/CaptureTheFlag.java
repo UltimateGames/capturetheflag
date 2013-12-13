@@ -1,9 +1,6 @@
 package me.ampayne2.capturetheflag;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import me.ampayne2.capturetheflag.classes.Archer;
 import me.ampayne2.capturetheflag.classes.Builder;
@@ -140,6 +137,9 @@ public class CaptureTheFlag extends GamePlugin {
             red.setPlayerColorToTeamColor(player);
             classManager.getPlayerClass(game, playerName).resetInventory(player);
         }
+        System.out.println("RED:" + Arrays.toString(red.getPlayers().toArray()));
+        System.out.println("BLUE:" + Arrays.toString(blue.getPlayers().toArray()));
+        System.out.println("WARRIORS:" + Arrays.toString(warrior.getPlayers().toArray()));
         return true;
     }
 
@@ -275,14 +275,14 @@ public class CaptureTheFlag extends GamePlugin {
             if (teamBlueFlagHolder.containsKey(arena) && teamBlueFlagHolder.get(arena).equals(playerName)) {
                 teamBlueFlagHolder.remove(arena);
                 ultimateGames.getMessageManager().sendGameMessage(arena, game, "Drop", playerName, "Team Red");
-                for (String player : ultimateGames.getTeamManager().getTeam(arena, "Blue").getPlayers()) {
+                for (String player : ultimateGames.getTeamManager().getTeam(arena, "Red").getPlayers()) {
                     ultimateGames.getPointManager().addPoint(game, player, "carrierKill", 1);
                     ultimateGames.getPointManager().addPoint(game, player, "store", 15);
                 }
             } else if (teamRedFlagHolder.containsKey(arena) && teamRedFlagHolder.get(arena).equals(playerName)) {
                 teamRedFlagHolder.remove(arena);
                 ultimateGames.getMessageManager().sendGameMessage(arena, game, "Drop", playerName, "Team Blue");
-                for (String player : ultimateGames.getTeamManager().getTeam(arena, "Red").getPlayers()) {
+                for (String player : ultimateGames.getTeamManager().getTeam(arena, "Blue").getPlayers()) {
                     ultimateGames.getPointManager().addPoint(game, player, "carrierKill", 1);
                     ultimateGames.getPointManager().addPoint(game, player, "store", 15);
                 }
