@@ -4,6 +4,7 @@ import me.ampayne2.capturetheflag.CaptureTheFlag;
 import me.ampayne2.ultimategames.UltimateGames;
 import me.ampayne2.ultimategames.games.Game;
 import me.ampayne2.ultimategames.players.classes.GameClass;
+import me.ampayne2.ultimategames.utils.MenuIcon;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -24,5 +25,9 @@ public class CTFClass extends GameClass{
             potion.apply(stack);
             player.getInventory().addItem(stack);
         }
+        ItemStack stack = new ItemStack(Material.NETHER_STAR);
+        stack.getItemMeta().setDisplayName("Class change");
+        player.getInventory().addItem(stack);
+        new MenuIcon(UltimateGames.getInstance(), stack, getGame());
     }
 }
