@@ -16,8 +16,10 @@ import org.bukkit.potion.PotionType;
 public class CTFClass extends GameClass{
 
     private Potion potion = new Potion(PotionType.SPEED);
+    private UltimateGames plugin;
     public CTFClass(UltimateGames ultimateGames, Game game, String name, boolean canSwitchToWithoutDeath) {
         super(ultimateGames, game, name, canSwitchToWithoutDeath);
+        this.plugin = ultimateGames;
     }
 
     @Override
@@ -32,6 +34,6 @@ public class CTFClass extends GameClass{
         meta.setDisplayName(ChatColor.AQUA + "Class selection");
         stack.setItemMeta(meta);
         player.getInventory().addItem(stack);
-        new MenuIcon(UltimateGames.getInstance(), stack, getGame());
+        new MenuIcon(plugin, stack, getGame());
     }
 }
