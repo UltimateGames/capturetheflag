@@ -17,6 +17,7 @@ public class Archer extends CTFClass {
 
     public Archer(UltimateGames ultimateGames, Game game, String name, boolean canSwitchToWithoutDeath) {
         super(ultimateGames, game, name, canSwitchToWithoutDeath);
+        setClassIcon(new ItemStack(Material.BOW));
         this.ultimateGames = ultimateGames;
         this.game = game;
     }

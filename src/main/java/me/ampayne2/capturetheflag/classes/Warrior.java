@@ -17,6 +17,7 @@ public class Warrior extends CTFClass {
 
     public Warrior(UltimateGames ultimateGames, Game game, String name, boolean canSwitchToWithoutDeath) {
         super(ultimateGames, game, name, canSwitchToWithoutDeath);
+        setClassIcon(new ItemStack(Material.IRON_SWORD));
         this.ultimateGames = ultimateGames;
         this.game = game;
     }

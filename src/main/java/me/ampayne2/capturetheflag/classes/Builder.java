@@ -19,6 +19,7 @@ public class Builder extends CTFClass {
 
     public Builder(UltimateGames ultimateGames, Game game, String name, boolean canSwitchToWithoutDeath) {
         super(ultimateGames, game, name, canSwitchToWithoutDeath);
+        setClassIcon(new ItemStack(Material.STAINED_CLAY));
         this.ultimateGames = ultimateGames;
         this.game = game;
     }
