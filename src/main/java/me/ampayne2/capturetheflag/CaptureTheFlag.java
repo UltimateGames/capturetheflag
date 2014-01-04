@@ -347,7 +347,7 @@ public class CaptureTheFlag extends GamePlugin {
         if (block.getType() == Material.TNT) {
             block.setType(Material.AIR);
             Location location = block.getLocation();
-            TNTPrimed tnt = (TNTPrimed) location.getWorld().spawnEntity(location, EntityType.PRIMED_TNT);
+            TNTPrimed tnt = (TNTPrimed) location.getWorld().spawnEntity(location.add(0.5, 0.5, 0.5), EntityType.PRIMED_TNT);
             tnt.setFuseTicks(80);
         }
     }

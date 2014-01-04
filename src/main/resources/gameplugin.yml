@@ -44,8 +44,12 @@ BlockPlaceWhitelist:
 - "WOOL"
 - "GOLD_BLOCK"
 - "IRON_DOOR_BLOCK"
+- "WALL_SIGN"
+- "SIGN_POST"
 BlockBreakWhitelist:
 - "GLASS"
 - "WOOL"
 - "GOLD_BLOCK"
 - "IRON_DOOR_BLOCK"
+- "WALL_SIGN"
+- "SIGN_POST"
