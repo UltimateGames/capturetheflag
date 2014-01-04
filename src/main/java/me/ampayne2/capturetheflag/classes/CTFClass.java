@@ -13,27 +13,32 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.Potion;
 import org.bukkit.potion.PotionType;
 
-public class CTFClass extends GameClass{
-
+public class CTFClass extends GameClass {
     private Potion potion = new Potion(PotionType.SPEED);
-    private UltimateGames plugin;
-    public CTFClass(UltimateGames ultimateGames, Game game, String name, boolean canSwitchToWithoutDeath) {
-        super(ultimateGames, game, name, canSwitchToWithoutDeath);
-        this.plugin = ultimateGames;
+    private UltimateGames ultimateGames;
+    private static final ItemStack CLASS_SELECTOR;
+    private static final ItemStack FOOD = new ItemStack(Material.COOKED_BEEF, 8);
+
+    public CTFClass(UltimateGames ultimateGames, Game game, String name) {
+        super(ultimateGames, game, name, false);
+        this.ultimateGames = ultimateGames;
     }
 
     @Override
     public void resetInventory(Player player) {
-        if (((CaptureTheFlag)getGame().getGamePlugin()).getPlayerSpeedPerk().containsKey(player.getName())) {
+        player.getInventory().addItem(CLASS_SELECTOR, FOOD);
+        new MenuIcon(ultimateGames, CLASS_SELECTOR, getGame());
+        if (((CaptureTheFlag) getGame().getGamePlugin()).getPlayerSpeedPerk().containsKey(player.getName())) {
             ItemStack stack = new ItemStack(Material.POTION, ((CaptureTheFlag) getGame().getGamePlugin()).getPlayerSpeedPerk().get(player.getName()));
             potion.apply(stack);
             player.getInventory().addItem(stack);
         }
-        ItemStack stack = new ItemStack(Material.NETHER_STAR);
-        ItemMeta meta = stack.getItemMeta();
-        meta.setDisplayName(ChatColor.AQUA + "Class selection");
-        stack.setItemMeta(meta);
-        player.getInventory().addItem(stack);
-        new MenuIcon(plugin, stack, getGame());
+    }
+
+    static {
+        CLASS_SELECTOR = new ItemStack(Material.NETHER_STAR);
+        ItemMeta meta = CLASS_SELECTOR.getItemMeta();
+        meta.setDisplayName(ChatColor.AQUA + "Class selector");
+        CLASS_SELECTOR.setItemMeta(meta);
     }
 }

@@ -36,10 +36,9 @@ Messages:
   Capture: "&4%s captured %s's flag!"
   Attacker: "%s had the most captures!"
   Defender: "%s killed the most flagholders!"
-  Notaclasstype: "%s is not an existing class!"
-  Notateam: "%s is not an existing team! Choose between blue and red."
-  Classnotunlocked: "You have not unlocked the %s class!"
-  Teamfull: "Cannot join team %s!"
+  Notateam: "&4%s is not an existing team! Choose between blue and red."
+  Classnotunlocked: "&4You have not unlocked the %s class!"
+  Teamfull: "&4Team %s is full!"
 BlockPlaceWhitelist:
 - "GLASS"
 - "WOOL"

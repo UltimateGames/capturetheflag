@@ -4,6 +4,7 @@ import java.util.*;
 
 import me.ampayne2.capturetheflag.classes.Archer;
 import me.ampayne2.capturetheflag.classes.Builder;
+import me.ampayne2.capturetheflag.classes.Demolitionist;
 import me.ampayne2.capturetheflag.classes.Warrior;
 import me.ampayne2.ultimategames.UltimateGames;
 import me.ampayne2.ultimategames.api.GamePlugin;
@@ -23,13 +24,17 @@ import me.ampayne2.ultimategames.utils.UGUtils;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.TNTPrimed;
 import org.bukkit.event.Event;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
@@ -41,7 +46,6 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 public class CaptureTheFlag extends GamePlugin {
-
     private UltimateGames ultimateGames;
     private Game game;
     private Archer archer;
@@ -55,19 +59,18 @@ public class CaptureTheFlag extends GamePlugin {
     public boolean loadGame(UltimateGames ultimateGames, Game game) {
         this.ultimateGames = ultimateGames;
         this.game = game;
-        GameClassManager classManager = ultimateGames.getGameClassManager();
-        archer = new Archer(ultimateGames, game, "Archer", false);
-        builder = new Builder(ultimateGames, game, "Builder", false);
-        warrior = new Warrior(ultimateGames, game, "Warrior", false);
-        classManager.registerGameClass(archer);
-        classManager.registerGameClass(builder);
-        classManager.registerGameClass(warrior);
+
+        ultimateGames.getGameClassManager()
+                .registerGameClass(new Archer(ultimateGames, game))
+                .registerGameClass(new Builder(ultimateGames, game))
+                .registerGameClass(new Warrior(ultimateGames, game))
+                .registerGameClass(new Demolitionist(ultimateGames, game));
+
         return true;
     }
 
     @Override
     public void unloadGame() {
-
     }
 
     @Override
@@ -137,9 +140,6 @@ public class CaptureTheFlag extends GamePlugin {
             red.setPlayerColorToTeamColor(player);
             classManager.getPlayerClass(game, playerName).resetInventory(player);
         }
-        System.out.println("RED:" + Arrays.toString(red.getPlayers().toArray()));
-        System.out.println("BLUE:" + Arrays.toString(blue.getPlayers().toArray()));
-        System.out.println("WARRIORS:" + Arrays.toString(warrior.getPlayers().toArray()));
         return true;
     }
 
@@ -200,7 +200,7 @@ public class CaptureTheFlag extends GamePlugin {
         player.setHealth(20.0);
         player.setFoodLevel(20);
 
-        warrior.addPlayer(player, true);
+        ultimateGames.getGameClassManager().getGameClass(game, "Warrior").addPlayer(player, true);
         if (ultimateGames.getPointManager().hasPerk(game, player.getName(), "speedpotion4")) {
             playerSpeedPerk.put(player.getName(), 4);
         } else if (ultimateGames.getPointManager().hasPerk(game, player.getName(), "speedpotion3")) {
@@ -236,7 +236,6 @@ public class CaptureTheFlag extends GamePlugin {
         if (arena.getStatus() == ArenaStatus.RUNNING && (teamManager.getTeam(arena, "Red").getPlayers().size() <= 0 || teamManager.getTeam(arena, "Blue").getPlayers().size() <= 0)) {
             ultimateGames.getArenaManager().endArena(arena);
         }
-        return;
     }
 
     @SuppressWarnings("deprecation")
@@ -257,7 +256,6 @@ public class CaptureTheFlag extends GamePlugin {
 
     @Override
     public void removeSpectator(Player player, Arena arena) {
-
     }
 
     @Override
@@ -265,7 +263,7 @@ public class CaptureTheFlag extends GamePlugin {
         if (arena.getStatus() == ArenaStatus.RUNNING) {
             String playerName = event.getEntity().getName();
             Player killer = event.getEntity().getKiller();
-            String killerName = null;
+            String killerName;
             if (killer != null) {
                 killerName = killer.getName();
                 ultimateGames.getMessageManager().sendGameMessage(arena, game,"Kill", killerName, event.getEntity().getName());
@@ -337,6 +335,17 @@ public class CaptureTheFlag extends GamePlugin {
             if (blockUnder.getType() == Material.GOLD_BLOCK) {
                 event.setCancelled(true);
             }
+        }
+    }
+
+    @Override
+    public void onBlockPlace(Arena arena, BlockPlaceEvent event) {
+        Block block = event.getBlock();
+        if (block.getType() == Material.TNT) {
+            block.setType(Material.AIR);
+            Location location = block.getLocation();
+            TNTPrimed tnt = (TNTPrimed) location.getWorld().spawnEntity(location, EntityType.PRIMED_TNT);
+            tnt.setFuseTicks(80);
         }
     }
 
@@ -425,18 +434,7 @@ public class CaptureTheFlag extends GamePlugin {
     @Override
     public void onArenaCommand(Arena arena, String command, CommandSender sender, String[] args) {
         Player player = (Player) sender;
-        if (command.equals("class") && args.length == 1) {
-            String className = args[0].toLowerCase();
-            if (className.equals("archer")) {
-                archer.addPlayer(player);
-            } else if (className.equals("builder")) {
-                builder.addPlayer(player);
-            } else if (className.equals("warrior")) {
-                warrior.addPlayer(player);
-            } else {
-                ultimateGames.getMessageManager().sendGameMessage(sender, game, "Notaclasstype", className);
-            }
-        } else if ((arena.getStatus() == ArenaStatus.STARTING || arena.getStatus() == ArenaStatus.OPEN) && command.equals("team") && args.length == 1) {
+        if ((arena.getStatus() == ArenaStatus.STARTING || arena.getStatus() == ArenaStatus.OPEN) && command.equals("team") && args.length == 1) {
             String teamName = args[0].toLowerCase();
             TeamManager teamManager = ultimateGames.getTeamManager();
             if (teamName.equals("blue")) {
@@ -462,7 +460,6 @@ public class CaptureTheFlag extends GamePlugin {
             } else {
                 ultimateGames.getMessageManager().sendGameMessage(sender, game, "Notateam", teamName);
             }
-
         }
     }
 
