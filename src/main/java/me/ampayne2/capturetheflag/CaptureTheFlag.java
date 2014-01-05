@@ -240,6 +240,7 @@ public class CaptureTheFlag extends GamePlugin {
         }
         if (arena.getStatus() == ArenaStatus.STARTING && arena.getPlayers().size() < arena.getMinPlayers() && ultimateGames.getCountdownManager().hasStartingCountdown(arena)) {
             ultimateGames.getCountdownManager().stopStartingCountdown(arena);
+            arena.setStatus(ArenaStatus.OPEN);
         }
     }
 
