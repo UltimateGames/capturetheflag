@@ -19,7 +19,9 @@ public class Toxicologist extends CTFClass {
 
     public Toxicologist(UltimateGames ultimateGames, Game game) {
         super(ultimateGames, game, "Toxicologist");
-        setClassIcon(POISON);
+        ItemStack icon = POISON.clone();
+        icon.setAmount(1);
+        setClassIcon(icon);
         setIsUnlockable(true);
         setUnlockableString("toxicologist");
     }

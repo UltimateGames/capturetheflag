@@ -15,7 +15,9 @@ public class Medic extends CTFClass {
 
     public Medic(UltimateGames ultimateGames, Game game) {
         super(ultimateGames, game, "Medic");
-        setClassIcon(HEALTH);
+        ItemStack icon = HEALTH.clone();
+        icon.setAmount(1);
+        setClassIcon(icon);
         setIsUnlockable(true);
         setUnlockableString("medic");
     }
