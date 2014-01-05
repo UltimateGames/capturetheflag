@@ -1,11 +1,6 @@
 package me.ampayne2.capturetheflag;
 
-import java.util.*;
-
-import me.ampayne2.capturetheflag.classes.Archer;
-import me.ampayne2.capturetheflag.classes.Builder;
-import me.ampayne2.capturetheflag.classes.Demolitionist;
-import me.ampayne2.capturetheflag.classes.Warrior;
+import me.ampayne2.capturetheflag.classes.*;
 import me.ampayne2.ultimategames.UltimateGames;
 import me.ampayne2.ultimategames.api.GamePlugin;
 import me.ampayne2.ultimategames.arenas.Arena;
@@ -21,7 +16,6 @@ import me.ampayne2.ultimategames.signs.ClickInputSign;
 import me.ampayne2.ultimategames.signs.SignType;
 import me.ampayne2.ultimategames.signs.UGSign;
 import me.ampayne2.ultimategames.utils.UGUtils;
-
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -45,6 +39,11 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class CaptureTheFlag extends GamePlugin {
     private UltimateGames ultimateGames;
     private Game game;
@@ -64,7 +63,10 @@ public class CaptureTheFlag extends GamePlugin {
                 .registerGameClass(new Archer(ultimateGames, game))
                 .registerGameClass(new Builder(ultimateGames, game))
                 .registerGameClass(new Warrior(ultimateGames, game))
-                .registerGameClass(new Demolitionist(ultimateGames, game));
+                .registerGameClass(new Tank(ultimateGames, game))
+                .registerGameClass(new Demolitionist(ultimateGames, game))
+                .registerGameClass(new Medic(ultimateGames, game))
+                .registerGameClass(new Toxicologist(ultimateGames, game));
 
         return true;
     }

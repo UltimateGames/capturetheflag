@@ -2,7 +2,6 @@ package me.ampayne2.capturetheflag.classes;
 
 import me.ampayne2.ultimategames.UltimateGames;
 import me.ampayne2.ultimategames.games.Game;
-import me.ampayne2.ultimategames.utils.UGUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -26,7 +25,7 @@ public class Demolitionist extends CTFClass {
         player.getInventory().clear();
         super.resetInventory(player);
         player.getInventory().setArmorContents(ARMOR);
-        player.getInventory().addItem(TNT, UGUtils.createInstructionBook(game));
+        player.getInventory().addItem(TNT);
         player.updateInventory();
     }
 }

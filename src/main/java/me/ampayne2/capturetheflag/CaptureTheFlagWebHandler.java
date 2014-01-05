@@ -1,15 +1,14 @@
 package me.ampayne2.capturetheflag;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import me.ampayne2.ultimategames.arenas.scoreboards.ArenaScoreboard;
-import org.bukkit.ChatColor;
-
 import me.ampayne2.ultimategames.UltimateGames;
 import me.ampayne2.ultimategames.arenas.Arena;
+import me.ampayne2.ultimategames.arenas.scoreboards.ArenaScoreboard;
 import me.ampayne2.ultimategames.gson.Gson;
 import me.ampayne2.ultimategames.webapi.WebHandler;
+import org.bukkit.ChatColor;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class CaptureTheFlagWebHandler implements WebHandler {
 
