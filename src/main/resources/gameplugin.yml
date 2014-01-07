@@ -23,7 +23,7 @@ CustomValues:
   StartWaitTime: 30
   GameTime: 1000
 Instructions:
-- "Capture the other team's flag."
+- "Capture the other team's flag.\n\nUse /shout [msg] to speak outside of team chat."
 Messages:
   teamprefix: "&8[%s&8] "
   GameEnd: "%s won %s on arena %s!"
