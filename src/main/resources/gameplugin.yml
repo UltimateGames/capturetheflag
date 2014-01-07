@@ -25,6 +25,7 @@ CustomValues:
 Instructions:
 - "Capture the other team's flag."
 Messages:
+  teamprefix: "&8[%s&8] "
   GameEnd: "%s won %s on arena %s!"
   GameTie: "%s and %s tied %s on arena %s!"
   Kill: "%s killed %s!"

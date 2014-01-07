@@ -8,6 +8,8 @@ import me.ampayne2.ultimategames.arenas.ArenaStatus;
 import me.ampayne2.ultimategames.arenas.scoreboards.ArenaScoreboard;
 import me.ampayne2.ultimategames.arenas.spawnpoints.PlayerSpawnPoint;
 import me.ampayne2.ultimategames.games.Game;
+import me.ampayne2.ultimategames.message.Message;
+import me.ampayne2.ultimategames.players.PlayerManager;
 import me.ampayne2.ultimategames.players.classes.GameClass;
 import me.ampayne2.ultimategames.players.classes.GameClassManager;
 import me.ampayne2.ultimategames.players.teams.Team;
@@ -27,29 +29,27 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.TNTPrimed;
 import org.bukkit.event.Event;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.event.player.PlayerDropItemEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerItemConsumeEvent;
-import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.event.player.*;
+import org.bukkit.plugin.messaging.Messenger;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-public class CaptureTheFlag extends GamePlugin {
+public class CaptureTheFlag extends GamePlugin implements Listener {
     private UltimateGames ultimateGames;
     private Game game;
     private Archer archer;
     private Builder builder;
     private Warrior warrior;
+    private Set<String> shouters = new HashSet<String>();
     private Map<Arena, String> teamBlueFlagHolder = new HashMap<Arena, String>();
     private Map<Arena, String> teamRedFlagHolder = new HashMap<Arena, String>();
     private Map<String, Integer> playerSpeedPerk = new HashMap<String, Integer>();
@@ -465,6 +465,32 @@ public class CaptureTheFlag extends GamePlugin {
                 }
             } else {
                 ultimateGames.getMessageManager().sendGameMessage(sender, game, "Notateam", teamName);
+            }
+        } else if (arena.getStatus() == ArenaStatus.RUNNING && command.equalsIgnoreCase("shout")) {
+            StringBuilder builder = new StringBuilder();
+            for (String s : args) {
+                builder.append(s);
+                builder.append(" ");
+            }
+            shouters.add(player.getName());
+            player.chat(builder.toString());
+            shouters.remove(player.getName());
+        }
+    }
+
+    @EventHandler
+    public void onPlayerChat(PlayerChatEvent event) {
+        Player player = event.getPlayer();
+        String playerName = player.getName();
+
+        PlayerManager playerManager = ultimateGames.getPlayerManager();
+        if (playerManager.isPlayerInArena(playerName)) {
+            Arena arena = playerManager.getPlayerArena(playerName);
+            if (arena.getGame().equals(game) && arena.getStatus() == ArenaStatus.RUNNING && !shouters.contains(playerName)) {
+                Team team = ultimateGames.getTeamManager().getPlayerTeam(playerName);
+                Message message = ultimateGames.getMessageManager();
+                message.sendRawMessage(team, String.format(message.getGameMessage(game, "teamprefix"), team.getColor() + playerName) + event.getMessage());
+                event.setCancelled(true);
             }
         }
     }
