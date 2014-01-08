@@ -78,7 +78,7 @@ public class Archer extends CTFClass {
         TIER_4_BOW = TIER_3_BOW.clone();
         TIER_4_BOW.addEnchantment(Enchantment.ARROW_FIRE, 1);
 
-        TIER_5_BOW = TIER_4_BOW;
+        TIER_5_BOW = TIER_4_BOW.clone();
         TIER_5_BOW.addEnchantment(Enchantment.ARROW_INFINITE, 1);
     }
 }
