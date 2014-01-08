@@ -12,11 +12,10 @@ import org.bukkit.potion.Potion;
 import org.bukkit.potion.PotionType;
 
 public class Toxicologist extends CTFClass {
-    private static final ItemStack[] TIER_1_ARMOR;
-    private static final ItemStack[] TIER_2_ARMOR;
-    private static final ItemStack[] TIER_3_ARMOR;
-    private static final ItemStack[] TIER_4_ARMOR;
-    private static final ItemStack[] TIER_5_ARMOR;
+    private static final ItemStack BOOTS;
+    private static final ItemStack LEGGINGS;
+    private static final ItemStack CHESTPLATE;
+    private static final ItemStack HELMET;
     private static final ItemStack TIER_1_DAMAGE;
     private static final ItemStack TIER_2_DAMAGE;
     private static final ItemStack TIER_1_POISON;
@@ -26,7 +25,7 @@ public class Toxicologist extends CTFClass {
     private static final ItemStack TIER_3_SWORD;
 
     public Toxicologist(UltimateGames ultimateGames, Game game) {
-        super(ultimateGames, game, "Toxicologist");
+        super(ultimateGames, game, "Toxicologist", BOOTS, LEGGINGS, CHESTPLATE, HELMET);
         setClassIcon(TIER_1_DAMAGE);
         setIsUnlockable(true);
         setUnlockableString("toxicologist");
@@ -40,23 +39,18 @@ public class Toxicologist extends CTFClass {
 
         switch (tier) {
             case 1:
-                player.getInventory().setArmorContents(TIER_1_ARMOR);
                 player.getInventory().addItem(TIER_1_SWORD, TIER_1_DAMAGE);
                 break;
             case 2:
-                player.getInventory().setArmorContents(TIER_2_ARMOR);
                 player.getInventory().addItem(TIER_1_SWORD, TIER_2_DAMAGE);
                 break;
             case 3:
-                player.getInventory().setArmorContents(TIER_3_ARMOR);
                 player.getInventory().addItem(TIER_2_SWORD, TIER_2_DAMAGE, TIER_1_POISON);
                 break;
             case 4:
-                player.getInventory().setArmorContents(TIER_4_ARMOR);
                 player.getInventory().addItem(TIER_2_SWORD, TIER_2_DAMAGE, TIER_2_POISON);
                 break;
             case 5:
-                player.getInventory().setArmorContents(TIER_5_ARMOR);
                 player.getInventory().addItem(TIER_3_SWORD, TIER_2_DAMAGE, TIER_2_POISON);
                 break;
         }
@@ -65,33 +59,25 @@ public class Toxicologist extends CTFClass {
     }
 
     static {
-        ItemStack boots = new ItemStack(Material.LEATHER_BOOTS);
-        LeatherArmorMeta bootMeta = (LeatherArmorMeta) boots.getItemMeta();
+        BOOTS = new ItemStack(Material.LEATHER_BOOTS);
+        LeatherArmorMeta bootMeta = (LeatherArmorMeta) BOOTS.getItemMeta();
         bootMeta.setColor(Color.BLACK);
-        boots.setItemMeta(bootMeta);
+        BOOTS.setItemMeta(bootMeta);
 
-        ItemStack leggings = new ItemStack(Material.LEATHER_LEGGINGS);
-        LeatherArmorMeta leggingMeta = (LeatherArmorMeta) boots.getItemMeta();
+        LEGGINGS = new ItemStack(Material.LEATHER_LEGGINGS);
+        LeatherArmorMeta leggingMeta = (LeatherArmorMeta) LEGGINGS.getItemMeta();
         leggingMeta.setColor(Color.BLACK);
-        leggings.setItemMeta(leggingMeta);
+        LEGGINGS.setItemMeta(leggingMeta);
 
-        ItemStack chestplate = new ItemStack(Material.LEATHER_CHESTPLATE);
-        LeatherArmorMeta chestplateMeta = (LeatherArmorMeta) boots.getItemMeta();
+        CHESTPLATE = new ItemStack(Material.LEATHER_CHESTPLATE);
+        LeatherArmorMeta chestplateMeta = (LeatherArmorMeta) CHESTPLATE.getItemMeta();
         chestplateMeta.setColor(Color.BLACK);
-        chestplate.setItemMeta(chestplateMeta);
+        CHESTPLATE.setItemMeta(chestplateMeta);
 
-        ItemStack helmet = new ItemStack(Material.LEATHER_HELMET);
-        LeatherArmorMeta helmetMeta = (LeatherArmorMeta) boots.getItemMeta();
+        HELMET = new ItemStack(Material.LEATHER_HELMET);
+        LeatherArmorMeta helmetMeta = (LeatherArmorMeta) HELMET.getItemMeta();
         helmetMeta.setColor(Color.BLACK);
-        helmet.setItemMeta(helmetMeta);
-
-        TIER_1_ARMOR = new ItemStack[]{null, null, null, helmet};
-        TIER_2_ARMOR = new ItemStack[]{null, leggings, null, helmet};
-        TIER_3_ARMOR = new ItemStack[]{boots, leggings, null, helmet};
-        TIER_4_ARMOR = new ItemStack[]{boots, leggings, chestplate, helmet};
-        ItemStack enchantedHelmet = helmet.clone();
-        enchantedHelmet.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1);
-        TIER_5_ARMOR = new ItemStack[]{boots, leggings, chestplate, enchantedHelmet};
+        HELMET.setItemMeta(helmetMeta);
 
         TIER_1_SWORD = new ItemStack(Material.WOOD_SWORD);
         TIER_1_SWORD.addUnsafeEnchantment(Enchantment.DURABILITY, 10);
@@ -100,7 +86,7 @@ public class Toxicologist extends CTFClass {
         TIER_2_SWORD.addEnchantment(Enchantment.DAMAGE_ALL, 1);
 
         TIER_3_SWORD = new ItemStack(Material.STONE_SWORD);
-        TIER_3_SWORD.addEnchantment(Enchantment.DURABILITY, 10);
+        TIER_3_SWORD.addUnsafeEnchantment(Enchantment.DURABILITY, 10);
 
         TIER_1_DAMAGE = new ItemStack(Material.POTION, 4);
         new Potion(PotionType.INSTANT_DAMAGE, 1, true).apply(TIER_1_DAMAGE);

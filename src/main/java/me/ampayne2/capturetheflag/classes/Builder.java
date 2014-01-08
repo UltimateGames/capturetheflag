@@ -24,7 +24,7 @@ public class Builder extends CTFClass {
     private static final ItemStack TIER_5_SHOVEL;
 
     public Builder(UltimateGames ultimateGames, Game game) {
-        super(ultimateGames, game, "Builder");
+        super(ultimateGames, game, "Builder", null, null, null, null);
         setClassIcon(new ItemStack(Material.STAINED_CLAY));
         this.ultimateGames = ultimateGames;
     }
