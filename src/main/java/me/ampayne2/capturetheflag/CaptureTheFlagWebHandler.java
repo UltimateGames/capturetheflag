@@ -11,7 +11,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CaptureTheFlagWebHandler implements WebHandler {
-
     private Arena arena;
     private UltimateGames ug;
 
