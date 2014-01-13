@@ -4,6 +4,8 @@ import me.ampayne2.ultimategames.UltimateGames;
 import me.ampayne2.ultimategames.arenas.Arena;
 import me.ampayne2.ultimategames.arenas.scoreboards.ArenaScoreboard;
 import me.ampayne2.ultimategames.gson.Gson;
+import me.ampayne2.ultimategames.players.teams.Team;
+import me.ampayne2.ultimategames.players.teams.TeamManager;
 import me.ampayne2.ultimategames.webapi.WebHandler;
 import org.bukkit.ChatColor;
 
@@ -25,10 +27,11 @@ public class CaptureTheFlagWebHandler implements WebHandler {
 
         Map<String, Integer> map = new HashMap<String, Integer>();
 
-        ArenaScoreboard scoreBoard = ug.getScoreboardManager().getArenaScoreboard(arena);
+        ArenaScoreboard scoreBoard = ug.getScoreboardManager().getScoreboard(arena);
         if (scoreBoard != null) {
-            map.put("Team Blue", scoreBoard.getScore(ChatColor.BLUE + "Team Blue"));
-            map.put("Team Red", scoreBoard.getScore(ChatColor.RED + "Team Red"));
+            for (Team team : ug.getTeamManager().getTeamsOfArena(arena)) {
+                map.put("Team " + team.getName(), scoreBoard.getScore(team));
+            }
         }
 
         return gson.toJson(map);

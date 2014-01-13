@@ -2,8 +2,6 @@ main-class: "me.ampayne2.capturetheflag.CaptureTheFlag"
 description: "The official Ultimate Games Capture the Flag game"
 version: "2.0"
 author: "ampayne2"
-scoreTypeName: "Kills:Deaths"
-scoreType: "POINTS_HIGHER"
 playerType: "CONFIGUREABLE"
 DefaultSettings:
   MinPlayers: 4
@@ -23,9 +21,25 @@ CustomValues:
   StartWaitTime: 30
   GameTime: 1000
 Instructions:
-- "Capture the other team's flag.\n\nUse /shout [msg] to speak outside of team chat."
+- "   Capture The Flag\n   Table Of Contents:\n\n   Intro.........................2\n   How To Play.........4\n   Rules.........................8\n   Classes...................11"
+- "       &l~Intro~&r\nWelcome to the front, soldier. Here, two factions are fighting to see who's on top. Skill, Strategy, and Teamwork will be required to overcome the opposing team.\nYou're a flag runner now."
+- "There are two sides:\n&c     Red&9     Blue&0\nBoth teams have flag beacons, which they must protect. Your goal is to work together with your teammates to capture the enemy's flag, while preventing them from capturing yours."
+- "    &l~How To Play~&r\n&oFlag Running&r\nAs a Flag Runner, your goal is to transport your enemy's flag from their base, to yours. You pick up the enemy's flag by right clicking one of the signs at the base of their flag"
+- "located near the center of their base. You capture a flag by right clicking your own flag  while you have possession of the enemy's flag. If you cannot find the location of a flag, consult a team member or even an opposing team member."
+- "&oStalemate&r\nA stalemate occurs when both teams have possession of a flag. In order to capture a flag, you must have possession of both the enemy's flag and your own flag. While in a stalemate, it is suggested that the flag carrier remain hidden."
+- "&oScore Cap&r\nWhen any team collects 3 points, they win the game.\n\n&oTime Limit&r\nThe time limit is located where the EXP bar is. The number represents how many seconds are left before the game ends."
+- "       &l~Rules~&r\n&oSharing Items&r\nClasses may not store or share their items. This includes, but is not limited to: Using chests to hold items, using furnaces to smelt ores, and using crafting tables to create weapons or armor."
+- "&oBlocking the Flag&r\nPlacing blocks within 4 blocks of any flag sign is illegal.\n\n&oSpawn Points&r\nThe destruction of any team spawn point is illegal. Camping a team's spawn point is illegal."
+- "&oCoin Farming&r\nThe act of letting the enemy capture a flag, kill you while holding the flag, or win the game with the intention of providing them with coins without competition is illegal."
+- "      &l~Classes~&r\n&oArcher&r\nThe Archer is designed to wreak havoc from afar.\nArmed with their bow and light armor, they are prepared to devastate approaching enemy's, or even ones who are running away."
+- "&oBuilder&r\nBuilders, armed with nothing more than a shovel, pickaxe, and enough clay to throw up a house, are in charge of fortifying their base, penetrating the enemy's defenses, or even constructing temporary buildings."
+- "&oDemolitionist&r\nPacked to the brim with enough TnT to level the playing field, these fearless daredevils are for busting through enemy defenses, causing massive damage to everyone around them."
+- "&oMedic&r\nWhile not much use offensively, this class is great for supporting teammates during battle. They come prepared with all the health potions them and their teammates need, and are trained to see the health of their teammates."
+- "&oTank&r\nSlow as snails, but these guys can take a bit of punishment. Tanks are often in charge of keeping the flag safe, or holding the enemy at bay with their impressive ability to withstand sword strikes."
+- "&oToxicologist&r\nNATO may have outlawed chemical warfare, but that won't stop these guys. They take pleasure in watching their enemy's wither under their vile potions."
+- "&oWarrior&r\nThe most devastating sword fighter, no other class stands a chance when locked into close combat with one of these bad boys."
 Messages:
-  teamprefix: "&8[%s&8] "
+  teamprefix: "&8[%s&8] &f"
   GameEnd: "%s won %s on arena %s!"
   GameTie: "%s and %s tied %s on arena %s!"
   Kill: "%s killed %s!"
