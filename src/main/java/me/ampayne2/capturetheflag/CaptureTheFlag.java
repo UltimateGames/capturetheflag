@@ -143,23 +143,29 @@ public class CaptureTheFlag extends GamePlugin implements Listener {
 
     @Override
     public void endArena(Arena arena) {
+        TeamManager teamManager = ultimateGames.getTeamManager();
+        Team blue = teamManager.getTeam(arena, "Blue");
+        Team red = teamManager.getTeam(arena, "Red");
         ArenaScoreboard scoreBoard = ultimateGames.getScoreboardManager().getScoreboard(arena);
-        Integer teamOneScore = scoreBoard.getScore(ChatColor.BLUE + "Team Blue");
-        Integer teamTwoScore = scoreBoard.getScore(ChatColor.RED + "Team Red");
+        int teamOneScore = scoreBoard.getScore(blue);
+        int teamTwoScore = scoreBoard.getScore(red);
         if (teamOneScore > teamTwoScore) {
             ultimateGames.getMessenger().sendGameMessage(ultimateGames.getServer(), game, "GameEnd", "Team Blue", game.getName(), arena.getName());
-            for (String players : ultimateGames.getTeamManager().getTeam(arena, "Blue").getPlayers()) {
-                ultimateGames.getPointManager().addPoint(game, players, "win", 1);
-                ultimateGames.getPointManager().addPoint(game, players, "store", 50);
+            for (String player : blue.getPlayers()) {
+                ultimateGames.getPointManager().addPoint(game, player, "win", 1);
+                ultimateGames.getPointManager().addPoint(game, player, "store", 50);
             }
         } else if (teamOneScore < teamTwoScore) {
             ultimateGames.getMessenger().sendGameMessage(ultimateGames.getServer(), game, "GameEnd", "Team Red", game.getName(), arena.getName());
-            for (String players : ultimateGames.getTeamManager().getTeam(arena, "Red").getPlayers()) {
-                ultimateGames.getPointManager().addPoint(game, players, "win", 1);
-                ultimateGames.getPointManager().addPoint(game, players, "store", 50);
+            for (String player : red.getPlayers()) {
+                ultimateGames.getPointManager().addPoint(game, player, "win", 1);
+                ultimateGames.getPointManager().addPoint(game, player, "store", 50);
             }
         } else {
             ultimateGames.getMessenger().sendGameMessage(ultimateGames.getServer(), game, "GameTie", "Team Blue", "Team Red", game.getName(), arena.getName());
+            for (String player : arena.getPlayers()) {
+                ultimateGames.getPointManager().addPoint(game, player, "store", 25);
+            }
         }
         if (teamBlueFlagHolder.containsKey(arena)) {
             teamBlueFlagHolder.remove(arena);
@@ -487,6 +493,7 @@ public class CaptureTheFlag extends GamePlugin implements Listener {
                 Messenger messenger = ultimateGames.getMessenger();
                 messenger.sendRawMessage(team, String.format(messenger.getGameMessage(game, "teamprefix"), team.getColor() + playerName) + event.getMessage());
                 event.setCancelled(true);
+                ultimateGames.getMessenger().getLogger().info("<" + playerName + "> " + event.getMessage());
             }
         }
     }
