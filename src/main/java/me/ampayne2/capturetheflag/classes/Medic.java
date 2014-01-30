@@ -1,7 +1,7 @@
 package me.ampayne2.capturetheflag.classes;
 
-import me.ampayne2.ultimategames.UltimateGames;
-import me.ampayne2.ultimategames.games.Game;
+import me.ampayne2.ultimategames.api.UltimateGames;
+import me.ampayne2.ultimategames.api.games.Game;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -9,6 +9,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.Potion;
 import org.bukkit.potion.PotionType;
 
+@SuppressWarnings("deprecation")
 public class Medic extends CTFClass {
     private static final ItemStack TIER_1_SWORD = new ItemStack(Material.WOOD_SWORD);
     private static final ItemStack TIER_2_SWORD;
@@ -24,7 +25,6 @@ public class Medic extends CTFClass {
         setUnlockableString("medic");
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     public void resetInventory(Player player, int tier) {
         player.getInventory().clear();

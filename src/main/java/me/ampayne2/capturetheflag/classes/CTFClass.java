@@ -1,12 +1,12 @@
 package me.ampayne2.capturetheflag.classes;
 
 import me.ampayne2.capturetheflag.CaptureTheFlag;
-import me.ampayne2.ultimategames.UltimateGames;
-import me.ampayne2.ultimategames.games.Game;
-import me.ampayne2.ultimategames.games.items.GameItem;
-import me.ampayne2.ultimategames.players.classes.ClassSelector;
-import me.ampayne2.ultimategames.players.classes.TieredClass;
-import me.ampayne2.ultimategames.utils.UGUtils;
+import me.ampayne2.ultimategames.api.UltimateGames;
+import me.ampayne2.ultimategames.api.games.Game;
+import me.ampayne2.ultimategames.api.games.items.GameItem;
+import me.ampayne2.ultimategames.api.players.classes.ClassSelector;
+import me.ampayne2.ultimategames.api.players.classes.TieredClass;
+import me.ampayne2.ultimategames.api.utils.UGUtils;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;

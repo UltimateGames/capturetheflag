@@ -1,9 +1,9 @@
 package me.ampayne2.capturetheflag.classes;
 
-import me.ampayne2.ultimategames.UltimateGames;
-import me.ampayne2.ultimategames.arenas.Arena;
-import me.ampayne2.ultimategames.games.Game;
-import me.ampayne2.ultimategames.players.teams.TeamManager;
+import me.ampayne2.ultimategames.api.UltimateGames;
+import me.ampayne2.ultimategames.api.arenas.Arena;
+import me.ampayne2.ultimategames.api.games.Game;
+import me.ampayne2.ultimategames.api.players.teams.TeamManager;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;

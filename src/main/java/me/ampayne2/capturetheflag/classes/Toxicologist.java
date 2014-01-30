@@ -1,7 +1,7 @@
 package me.ampayne2.capturetheflag.classes;
 
-import me.ampayne2.ultimategames.UltimateGames;
-import me.ampayne2.ultimategames.games.Game;
+import me.ampayne2.ultimategames.api.UltimateGames;
+import me.ampayne2.ultimategames.api.games.Game;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -11,6 +11,7 @@ import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.potion.Potion;
 import org.bukkit.potion.PotionType;
 
+@SuppressWarnings("deprecation")
 public class Toxicologist extends CTFClass {
     private static final ItemStack BOOTS;
     private static final ItemStack LEGGINGS;
@@ -31,7 +32,6 @@ public class Toxicologist extends CTFClass {
         setUnlockableString("toxicologist");
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     public void resetInventory(Player player, int tier) {
         player.getInventory().clear();
