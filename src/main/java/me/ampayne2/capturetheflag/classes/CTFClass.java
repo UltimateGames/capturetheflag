@@ -12,6 +12,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.Potion;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.potion.PotionType;
 
 public class CTFClass extends TieredClass {
@@ -78,5 +79,7 @@ public class CTFClass extends TieredClass {
         if (tier == 5 && ultimateGames.getPointManager().hasPerk(getGame(), player.getName(), "enderpearl")) {
             player.getInventory().addItem(ENDER_PEARL);
         }
+
+        UGUtils.removePotionEffect(player, PotionEffectType.SLOW);
     }
 }

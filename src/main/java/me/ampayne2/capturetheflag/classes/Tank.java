@@ -47,7 +47,6 @@ public class Tank extends CTFClass {
 
         player.updateInventory();
 
-        UGUtils.removePotionEffect(player, PotionEffectType.SLOW);
         UGUtils.increasePotionEffect(player, PotionEffectType.SLOW);
     }
 

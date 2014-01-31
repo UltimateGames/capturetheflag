@@ -383,7 +383,7 @@ public class CaptureTheFlag extends GamePlugin implements Listener {
                         }
                         ultimateGames.getPointManager().addPoint(game, player.getName(), "capture", 1);
                         ultimateGames.getPointManager().addPoint(game, player.getName(), "store", 25);
-                        UGUtils.decreasePotionEffect(player, PotionEffectType.SLOW, 1);
+                        UGUtils.decreasePotionEffect(player, PotionEffectType.SLOW);
 
                         if (scoreBoard.getScore(ChatColor.RED + "Team Red") == 3) {
                             ultimateGames.getArenaManager().endArena(arena);
@@ -406,7 +406,7 @@ public class CaptureTheFlag extends GamePlugin implements Listener {
                         }
                         ultimateGames.getPointManager().addPoint(game, player.getName(), "capture", 1);
                         ultimateGames.getPointManager().addPoint(game, player.getName(), "store", 25);
-                        UGUtils.decreasePotionEffect(player, PotionEffectType.SLOW, 1);
+                        UGUtils.decreasePotionEffect(player, PotionEffectType.SLOW);
 
                         if (scoreBoard.getScore(ChatColor.BLUE + "Team Blue") == 3) {
                             ultimateGames.getArenaManager().endArena(arena);
