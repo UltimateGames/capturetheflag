@@ -2,10 +2,12 @@ package me.ampayne2.capturetheflag.classes;
 
 import me.ampayne2.ultimategames.api.UltimateGames;
 import me.ampayne2.ultimategames.api.games.Game;
+import me.ampayne2.ultimategames.api.utils.UGUtils;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffectType;
 
 public class Tank extends CTFClass {
     private static final ItemStack TIER_1_SWORD = new ItemStack(Material.WOOD_SWORD);
@@ -44,6 +46,9 @@ public class Tank extends CTFClass {
         }
 
         player.updateInventory();
+
+        UGUtils.removePotionEffect(player, PotionEffectType.SLOW);
+        UGUtils.increasePotionEffect(player, PotionEffectType.SLOW);
     }
 
     static {

@@ -9,8 +9,8 @@ import org.bukkit.inventory.ItemStack;
 
 public class Warrior extends CTFClass {
     private static final ItemStack TIER_1_SWORD = new ItemStack(Material.WOOD_SWORD);
-    private static final ItemStack TIER_2_SWORD = new ItemStack(Material.STONE_SWORD);
-    private static final ItemStack TIER_3_SWORD = new ItemStack(Material.GOLD_SWORD);
+    private static final ItemStack TIER_2_SWORD = new ItemStack(Material.GOLD_SWORD);
+    private static final ItemStack TIER_3_SWORD = new ItemStack(Material.STONE_SWORD);
     private static final ItemStack TIER_4_SWORD = new ItemStack(Material.IRON_SWORD);
     private static final ItemStack TIER_5_SWORD;
 
@@ -48,6 +48,6 @@ public class Warrior extends CTFClass {
 
     static {
         TIER_5_SWORD = TIER_4_SWORD.clone();
-        TIER_5_SWORD.addEnchantment(Enchantment.DAMAGE_ALL, 1);
+        TIER_5_SWORD.addEnchantment(Enchantment.KNOCKBACK, 1);
     }
 }

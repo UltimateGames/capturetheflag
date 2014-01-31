@@ -370,7 +370,7 @@ public class CaptureTheFlag extends GamePlugin implements Listener {
                     if (teamManager.getTeam(arena, "Blue").hasPlayer(playerName) && !teamBlueFlagHolder.containsKey(arena)) {
                         teamBlueFlagHolder.put(arena, playerName);
                         ultimateGames.getMessenger().sendGameMessage(arena, game, "Pickup", playerName, "Team Red");
-                        player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 6000, 1));
+                        UGUtils.increasePotionEffect(player, PotionEffectType.SLOW);
                     } else if (teamManager.getTeam(arena, "Red").hasPlayer(playerName) && teamRedFlagHolder.containsKey(arena) && !teamBlueFlagHolder.containsKey(arena) && teamRedFlagHolder.get(arena).equals(playerName)) {
                         teamRedFlagHolder.remove(arena);
                         ultimateGames.getMessenger().sendGameMessage(arena, game, "Capture", playerName, "Team Blue");
@@ -383,9 +383,8 @@ public class CaptureTheFlag extends GamePlugin implements Listener {
                         }
                         ultimateGames.getPointManager().addPoint(game, player.getName(), "capture", 1);
                         ultimateGames.getPointManager().addPoint(game, player.getName(), "store", 25);
-                        if (player.hasPotionEffect(PotionEffectType.SLOW)) {
-                            player.removePotionEffect(PotionEffectType.SLOW);
-                        }
+                        UGUtils.decreasePotionEffect(player, PotionEffectType.SLOW, 1);
+
                         if (scoreBoard.getScore(ChatColor.RED + "Team Red") == 3) {
                             ultimateGames.getArenaManager().endArena(arena);
                         }
@@ -394,7 +393,7 @@ public class CaptureTheFlag extends GamePlugin implements Listener {
                     if (teamManager.getTeam(arena, "Red").hasPlayer(playerName) && !teamRedFlagHolder.containsKey(arena)) {
                         teamRedFlagHolder.put(arena, playerName);
                         ultimateGames.getMessenger().sendGameMessage(arena, game, "Pickup", playerName, "Team Blue");
-                        player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 6000, 1));
+                        UGUtils.increasePotionEffect(player, PotionEffectType.SLOW);
                     } else if (teamManager.getTeam(arena, "Blue").hasPlayer(playerName) && teamBlueFlagHolder.containsKey(arena) && !teamRedFlagHolder.containsKey(arena) && teamBlueFlagHolder.get(arena).equals(playerName)) {
                         teamBlueFlagHolder.remove(arena);
                         ultimateGames.getMessenger().sendGameMessage(arena, game, "Capture", playerName, "Team Red");
@@ -407,9 +406,7 @@ public class CaptureTheFlag extends GamePlugin implements Listener {
                         }
                         ultimateGames.getPointManager().addPoint(game, player.getName(), "capture", 1);
                         ultimateGames.getPointManager().addPoint(game, player.getName(), "store", 25);
-                        if (player.hasPotionEffect(PotionEffectType.SLOW)) {
-                            player.removePotionEffect(PotionEffectType.SLOW);
-                        }
+                        UGUtils.decreasePotionEffect(player, PotionEffectType.SLOW, 1);
 
                         if (scoreBoard.getScore(ChatColor.BLUE + "Team Blue") == 3) {
                             ultimateGames.getArenaManager().endArena(arena);
