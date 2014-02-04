@@ -6,6 +6,7 @@ import me.ampayne2.ultimategames.api.arenas.Arena;
 import me.ampayne2.ultimategames.api.arenas.ArenaStatus;
 import me.ampayne2.ultimategames.api.arenas.scoreboards.Scoreboard;
 import me.ampayne2.ultimategames.api.arenas.spawnpoints.PlayerSpawnPoint;
+import me.ampayne2.ultimategames.api.arenas.zones.Zone;
 import me.ampayne2.ultimategames.api.games.Game;
 import me.ampayne2.ultimategames.api.games.GamePlugin;
 import me.ampayne2.ultimategames.api.message.Messenger;
@@ -294,6 +295,14 @@ public class CaptureTheFlag extends GamePlugin implements Listener {
     public void onEntityDamage(Arena arena, EntityDamageEvent event) {
         if (arena.getStatus() != ArenaStatus.RUNNING) {
             event.setCancelled(true);
+        } else {
+            Location location = event.getEntity().getLocation();
+            for (Map.Entry<String, Zone> entry : ultimateGames.getZoneManager().getZonesOfArena(arena).entrySet()) {
+                if (entry.getKey().contains("spawn") && entry.getValue().isLocationInZone(location)) {
+                    event.setCancelled(true);
+                    return;
+                }
+            }
         }
     }
 
@@ -307,6 +316,14 @@ public class CaptureTheFlag extends GamePlugin implements Listener {
                 }
                 if (blockUnder.getType() == Material.GOLD_BLOCK) {
                     event.blockList().remove(block);
+                    continue;
+                }
+            }
+            Location location = block.getLocation();
+            for (Map.Entry<String, Zone> entry : ultimateGames.getZoneManager().getZonesOfArena(arena).entrySet()) {
+                if (entry.getValue().isLocationInZone(location)) {
+                    event.blockList().remove(block);
+                    break;
                 }
             }
         }
@@ -322,6 +339,14 @@ public class CaptureTheFlag extends GamePlugin implements Listener {
             }
             if (blockUnder.getType() == Material.GOLD_BLOCK) {
                 event.setCancelled(true);
+                return;
+            }
+        }
+        Location location = block.getLocation();
+        for (Map.Entry<String, Zone> entry : ultimateGames.getZoneManager().getZonesOfArena(arena).entrySet()) {
+            if (entry.getValue().isLocationInZone(location)) {
+                event.setCancelled(true);
+                return;
             }
         }
     }
@@ -329,12 +354,19 @@ public class CaptureTheFlag extends GamePlugin implements Listener {
     @Override
     public void onBlockPlace(Arena arena, BlockPlaceEvent event) {
         Block block = event.getBlock();
+        Location location = block.getLocation();
         if (block.getType() == Material.TNT) {
             block.setType(Material.AIR);
-            Location location = block.getLocation();
             TNTPrimed tnt = (TNTPrimed) location.getWorld().spawnEntity(location.add(0.5, 0.5, 0.5), EntityType.PRIMED_TNT);
             tnt.setFuseTicks(40);
             tnt.setVelocity(new Vector(0.0, 0.2, 0.0));
+        } else {
+            for (Map.Entry<String, Zone> entry : ultimateGames.getZoneManager().getZonesOfArena(arena).entrySet()) {
+                if (entry.getValue().isLocationInZone(location)) {
+                    event.setCancelled(true);
+                    return;
+                }
+            }
         }
     }
 
