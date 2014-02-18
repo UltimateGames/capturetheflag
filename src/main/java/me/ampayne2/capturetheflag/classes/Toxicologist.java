@@ -45,10 +45,10 @@ public class Toxicologist extends CTFClass {
                 player.getInventory().addItem(TIER_1_SWORD, TIER_2_DAMAGE);
                 break;
             case 3:
-                player.getInventory().addItem(TIER_2_SWORD, TIER_2_DAMAGE, TIER_1_POISON);
+                player.getInventory().addItem(TIER_2_SWORD, TIER_1_DAMAGE, TIER_1_POISON);
                 break;
             case 4:
-                player.getInventory().addItem(TIER_2_SWORD, TIER_2_DAMAGE, TIER_2_POISON);
+                player.getInventory().addItem(TIER_2_SWORD, TIER_2_DAMAGE, TIER_1_POISON);
                 break;
             case 5:
                 player.getInventory().addItem(TIER_3_SWORD, TIER_2_DAMAGE, TIER_2_POISON);
@@ -88,16 +88,16 @@ public class Toxicologist extends CTFClass {
         TIER_3_SWORD = new ItemStack(Material.STONE_SWORD);
         TIER_3_SWORD.addUnsafeEnchantment(Enchantment.DURABILITY, 10);
 
-        TIER_1_DAMAGE = new ItemStack(Material.POTION, 4);
+        TIER_1_DAMAGE = new ItemStack(Material.POTION, 2);
         new Potion(PotionType.INSTANT_DAMAGE, 1, true).apply(TIER_1_DAMAGE);
 
         TIER_2_DAMAGE = TIER_1_DAMAGE.clone();
-        TIER_2_DAMAGE.setAmount(8);
+        TIER_2_DAMAGE.setAmount(4);
 
-        TIER_1_POISON = new ItemStack(Material.POTION, 4);
+        TIER_1_POISON = new ItemStack(Material.POTION, 2);
         new Potion(PotionType.POISON, 1, true).apply(TIER_1_POISON);
 
         TIER_2_POISON = TIER_1_POISON.clone();
-        TIER_2_POISON.setAmount(8);
+        TIER_2_POISON.setAmount(4);
     }
 }

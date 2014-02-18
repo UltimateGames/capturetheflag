@@ -13,9 +13,9 @@ import org.bukkit.potion.PotionType;
 public class Medic extends CTFClass {
     private static final ItemStack TIER_1_SWORD = new ItemStack(Material.WOOD_SWORD);
     private static final ItemStack TIER_2_SWORD;
-    private static final ItemStack TIER_3_SWORD = new ItemStack(Material.STONE_SWORD);
+    private static final ItemStack TIER_3_SWORD = new ItemStack(Material.GOLD_SWORD);
     private static final ItemStack TIER_4_SWORD;
-    private static final ItemStack TIER_5_SWORD = new ItemStack(Material.GOLD_SWORD);
+    private static final ItemStack TIER_5_SWORD = new ItemStack(Material.STONE_SWORD);
     private static final ItemStack HEALTH;
 
     public Medic(UltimateGames ultimateGames, Game game) {
