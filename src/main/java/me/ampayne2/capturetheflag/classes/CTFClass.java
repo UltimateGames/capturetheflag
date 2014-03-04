@@ -2,10 +2,12 @@ package me.ampayne2.capturetheflag.classes;
 
 import me.ampayne2.capturetheflag.CaptureTheFlag;
 import me.ampayne2.ultimategames.api.UltimateGames;
+import me.ampayne2.ultimategames.api.arenas.ArenaStatus;
 import me.ampayne2.ultimategames.api.games.Game;
 import me.ampayne2.ultimategames.api.games.items.GameItem;
 import me.ampayne2.ultimategames.api.players.classes.ClassSelector;
 import me.ampayne2.ultimategames.api.players.classes.TieredClass;
+import me.ampayne2.ultimategames.api.players.teams.TeamSelector;
 import me.ampayne2.ultimategames.api.utils.UGUtils;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -24,6 +26,7 @@ public class CTFClass extends TieredClass {
     private final ItemStack[] TIER_4_ARMOR;
     private final ItemStack[] TIER_5_ARMOR;
     private final GameItem CLASS_SELECTOR;
+    private final GameItem TEAM_SELECTOR;
     private static final ItemStack FOOD = new ItemStack(Material.COOKED_BEEF, 8);
     private static final Potion POTION = new Potion(PotionType.SPEED);
     private static final ItemStack GOLDEN_APPLE = new ItemStack(Material.GOLDEN_APPLE);
@@ -46,12 +49,20 @@ public class CTFClass extends TieredClass {
         TIER_5_ARMOR = new ItemStack[]{boots, leggings, chestplate, enchantedHelmet};
 
         CLASS_SELECTOR = new ClassSelector(ultimateGames);
-        ultimateGames.getGameItemManager().registerGameItem(game, CLASS_SELECTOR);
+        TEAM_SELECTOR = new TeamSelector(ultimateGames);
+        ultimateGames.getGameItemManager()
+                .registerGameItem(game, CLASS_SELECTOR)
+                .registerGameItem(game, TEAM_SELECTOR);
     }
 
     @Override
     public void resetInventory(Player player, int tier) {
-        player.getInventory().addItem(instructions, CLASS_SELECTOR.getItem(), FOOD);
+        player.getInventory().addItem(instructions, CLASS_SELECTOR.getItem());
+        ArenaStatus status = ultimateGames.getPlayerManager().getPlayerArena(player.getName()).getStatus();
+        if (status == ArenaStatus.OPEN || status == ArenaStatus.STARTING) {
+            player.getInventory().addItem(TEAM_SELECTOR.getItem());
+        }
+        player.getInventory().addItem(FOOD);
         switch (tier) {
             case 1:
                 player.getInventory().setArmorContents(TIER_1_ARMOR);
