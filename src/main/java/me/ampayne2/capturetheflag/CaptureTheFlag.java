@@ -9,8 +9,7 @@ import me.ampayne2.ultimategames.api.arenas.spawnpoints.PlayerSpawnPoint;
 import me.ampayne2.ultimategames.api.arenas.zones.Zone;
 import me.ampayne2.ultimategames.api.games.Game;
 import me.ampayne2.ultimategames.api.games.GamePlugin;
-import me.ampayne2.ultimategames.api.message.Messenger;
-import me.ampayne2.ultimategames.api.players.PlayerManager;
+import me.ampayne2.ultimategames.api.message.UGMessage;
 import me.ampayne2.ultimategames.api.players.classes.GameClass;
 import me.ampayne2.ultimategames.api.players.classes.GameClassManager;
 import me.ampayne2.ultimategames.api.players.teams.Team;
@@ -30,14 +29,16 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.TNTPrimed;
 import org.bukkit.event.Event;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.event.player.*;
+import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerItemConsumeEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
@@ -56,8 +57,15 @@ public class CaptureTheFlag extends GamePlugin implements Listener {
     public boolean loadGame(UltimateGames ultimateGames, Game game) {
         this.ultimateGames = ultimateGames;
         this.game = game;
-
-        ultimateGames.getGameClassManager().registerGameClass(new Archer(ultimateGames, game)).registerGameClass(new Builder(ultimateGames, game)).registerGameClass(new Warrior(ultimateGames, game)).registerGameClass(new Tank(ultimateGames, game)).registerGameClass(new Demolitionist(ultimateGames, game)).registerGameClass(new Medic(ultimateGames, game)).registerGameClass(new Toxicologist(ultimateGames, game));
+        game.setMessages(CTFMessage.class);
+        ultimateGames.getGameClassManager()
+                .registerGameClass(new Archer(ultimateGames, game))
+                .registerGameClass(new Builder(ultimateGames, game))
+                .registerGameClass(new Warrior(ultimateGames, game))
+                .registerGameClass(new Tank(ultimateGames, game))
+                .registerGameClass(new Demolitionist(ultimateGames, game))
+                .registerGameClass(new Medic(ultimateGames, game))
+                .registerGameClass(new Toxicologist(ultimateGames, game));
 
         return true;
     }
@@ -142,19 +150,19 @@ public class CaptureTheFlag extends GamePlugin implements Listener {
         int teamOneScore = scoreBoard.getScore(blue);
         int teamTwoScore = scoreBoard.getScore(red);
         if (teamOneScore > teamTwoScore) {
-            ultimateGames.getMessenger().sendGameMessage(Bukkit.getServer(), game, "GameEnd", "Team Blue", game.getName(), arena.getName());
+            ultimateGames.getMessenger().sendGameMessage(Bukkit.getServer(), game, CTFMessage.GAME_END, "Team Blue", game.getName(), arena.getName());
             for (String player : blue.getPlayers()) {
                 ultimateGames.getPointManager().addPoint(game, player, "win", 1);
                 ultimateGames.getPointManager().addPoint(game, player, "store", 50);
             }
         } else if (teamOneScore < teamTwoScore) {
-            ultimateGames.getMessenger().sendGameMessage(Bukkit.getServer(), game, "GameEnd", "Team Red", game.getName(), arena.getName());
+            ultimateGames.getMessenger().sendGameMessage(Bukkit.getServer(), game, CTFMessage.GAME_END, "Team Red", game.getName(), arena.getName());
             for (String player : red.getPlayers()) {
                 ultimateGames.getPointManager().addPoint(game, player, "win", 1);
                 ultimateGames.getPointManager().addPoint(game, player, "store", 50);
             }
         } else {
-            ultimateGames.getMessenger().sendGameMessage(Bukkit.getServer(), game, "GameTie", "Team Blue", "Team Red", game.getName(), arena.getName());
+            ultimateGames.getMessenger().sendGameMessage(Bukkit.getServer(), game, CTFMessage.GAME_TIE, "Team Blue", "Team Red", game.getName(), arena.getName());
             for (String player : arena.getPlayers()) {
                 ultimateGames.getPointManager().addPoint(game, player, "store", 25);
             }
@@ -256,20 +264,20 @@ public class CaptureTheFlag extends GamePlugin implements Listener {
             String playerName = player.getName();
             Player killer = player.getKiller();
             if (killer != null) {
-                ultimateGames.getMessenger().sendGameMessage(arena, game, "Kill", killer.getName(), event.getEntity().getName());
+                ultimateGames.getMessenger().sendGameMessage(arena, game, CTFMessage.KILL, killer.getName(), event.getEntity().getName());
             } else {
-                ultimateGames.getMessenger().sendGameMessage(arena, game, "Death", event.getEntity().getName());
+                ultimateGames.getMessenger().sendGameMessage(arena, game, CTFMessage.DEATH, event.getEntity().getName());
             }
             if (teamBlueFlagHolder.containsKey(arena) && teamBlueFlagHolder.get(arena).equals(playerName)) {
                 teamBlueFlagHolder.remove(arena);
-                ultimateGames.getMessenger().sendGameMessage(arena, game, "Drop", playerName, "Team Red");
+                ultimateGames.getMessenger().sendGameMessage(arena, game, CTFMessage.DROP_FLAG, playerName, "Team Red");
                 for (String redPlayer : ultimateGames.getTeamManager().getTeam(arena, "Red").getPlayers()) {
                     ultimateGames.getPointManager().addPoint(game, redPlayer, "carrierKill", 1);
                     ultimateGames.getPointManager().addPoint(game, redPlayer, "store", 15);
                 }
             } else if (teamRedFlagHolder.containsKey(arena) && teamRedFlagHolder.get(arena).equals(playerName)) {
                 teamRedFlagHolder.remove(arena);
-                ultimateGames.getMessenger().sendGameMessage(arena, game, "Drop", playerName, "Team Blue");
+                ultimateGames.getMessenger().sendGameMessage(arena, game, CTFMessage.DROP_FLAG, playerName, "Team Blue");
                 for (String bluePlayer : ultimateGames.getTeamManager().getTeam(arena, "Blue").getPlayers()) {
                     ultimateGames.getPointManager().addPoint(game, bluePlayer, "carrierKill", 1);
                     ultimateGames.getPointManager().addPoint(game, bluePlayer, "store", 15);
@@ -401,11 +409,11 @@ public class CaptureTheFlag extends GamePlugin implements Listener {
                 if (inputSign.getLabel().equals("TeamRedFlag")) {
                     if (teamManager.getTeam(arena, "Blue").hasPlayer(playerName) && !teamBlueFlagHolder.containsKey(arena)) {
                         teamBlueFlagHolder.put(arena, playerName);
-                        ultimateGames.getMessenger().sendGameMessage(arena, game, "Pickup", playerName, "Team Red");
+                        ultimateGames.getMessenger().sendGameMessage(arena, game, CTFMessage.PICKUP_FLAG, playerName, "Team Red");
                         UGUtils.increasePotionEffect(player, PotionEffectType.SLOW);
                     } else if (teamManager.getTeam(arena, "Red").hasPlayer(playerName) && teamRedFlagHolder.containsKey(arena) && !teamBlueFlagHolder.containsKey(arena) && teamRedFlagHolder.get(arena).equals(playerName)) {
                         teamRedFlagHolder.remove(arena);
-                        ultimateGames.getMessenger().sendGameMessage(arena, game, "Capture", playerName, "Team Blue");
+                        ultimateGames.getMessenger().sendGameMessage(arena, game, CTFMessage.CAPTURE_FLAG, playerName, "Team Blue");
                         Scoreboard scoreBoard = ultimateGames.getScoreboardManager().getScoreboard(arena);
                         scoreBoard.setScore(ChatColor.RED + "Team Red", scoreBoard.getScore(ChatColor.RED + "Team Red") + 1);
                         for (String players : ultimateGames.getTeamManager().getTeam(arena, "Red").getPlayers()) {
@@ -424,11 +432,11 @@ public class CaptureTheFlag extends GamePlugin implements Listener {
                 } else if (inputSign.getLabel().equals("TeamBlueFlag")) {
                     if (teamManager.getTeam(arena, "Red").hasPlayer(playerName) && !teamRedFlagHolder.containsKey(arena)) {
                         teamRedFlagHolder.put(arena, playerName);
-                        ultimateGames.getMessenger().sendGameMessage(arena, game, "Pickup", playerName, "Team Blue");
+                        ultimateGames.getMessenger().sendGameMessage(arena, game, CTFMessage.PICKUP_FLAG, playerName, "Team Blue");
                         UGUtils.increasePotionEffect(player, PotionEffectType.SLOW);
                     } else if (teamManager.getTeam(arena, "Blue").hasPlayer(playerName) && teamBlueFlagHolder.containsKey(arena) && !teamRedFlagHolder.containsKey(arena) && teamBlueFlagHolder.get(arena).equals(playerName)) {
                         teamBlueFlagHolder.remove(arena);
-                        ultimateGames.getMessenger().sendGameMessage(arena, game, "Capture", playerName, "Team Red");
+                        ultimateGames.getMessenger().sendGameMessage(arena, game, CTFMessage.CAPTURE_FLAG, playerName, "Team Red");
                         Scoreboard scoreBoard = ultimateGames.getScoreboardManager().getScoreboard(arena);
                         scoreBoard.setScore(ChatColor.BLUE + "Team Blue", scoreBoard.getScore(ChatColor.BLUE + "Team Blue") + 1);
                         for (String players : ultimateGames.getTeamManager().getTeam(arena, "Blue").getPlayers()) {
@@ -451,65 +459,19 @@ public class CaptureTheFlag extends GamePlugin implements Listener {
 
     @Override
     public void onArenaCommand(Arena arena, String command, CommandSender sender, String[] args) {
-        Player player = (Player) sender;
-        if ((arena.getStatus() == ArenaStatus.STARTING || arena.getStatus() == ArenaStatus.OPEN) && command.equals("team") && args.length == 1) {
-            String teamName = args[0].toLowerCase();
-            TeamManager teamManager = ultimateGames.getTeamManager();
-            switch (args[0].toLowerCase()) {
-                case "blue":
-                    Team team = teamManager.getTeam(arena, "Blue");
-                    if (team.hasSpace()) {
-                        teamManager.setPlayerTeam(player, team);
-                        PlayerSpawnPoint spawnPoint = ultimateGames.getSpawnpointManager().getSpawnPoint(arena, 0);
-                        spawnPoint.lock(false);
-                        spawnPoint.teleportPlayer(player);
-                    } else {
-                        ultimateGames.getMessenger().sendGameMessage(sender, game, "Teamfull", teamName);
-                    }
-                    break;
-                case "red":
-                    team = teamManager.getTeam(arena, "Red");
-                    if (team.hasSpace()) {
-                        teamManager.setPlayerTeam(player, team);
-                        PlayerSpawnPoint spawnPoint = ultimateGames.getSpawnpointManager().getSpawnPoint(arena, 1);
-                        spawnPoint.lock(false);
-                        spawnPoint.teleportPlayer(player);
-                    } else {
-                        ultimateGames.getMessenger().sendGameMessage(sender, game, "Teamfull", teamName);
-                    }
-                    break;
-                default:
-                    ultimateGames.getMessenger().sendGameMessage(sender, game, "Notateam", teamName);
-
+        if (arena.getStatus() == ArenaStatus.RUNNING && command.equalsIgnoreCase("shout")) {
+            Player player = (Player) sender;
+            String playerName = player.getName();
+            ChatColor teamColor = ChatColor.WHITE;
+            if (ultimateGames.getTeamManager().isPlayerInTeam(playerName)) {
+                teamColor = ultimateGames.getTeamManager().getPlayerTeam(playerName).getColor();
             }
-        } else if (arena.getStatus() == ArenaStatus.RUNNING && command.equalsIgnoreCase("shout")) {
-            StringBuilder builder = new StringBuilder();
+            StringBuilder message = new StringBuilder();
             for (String s : args) {
-                builder.append(s);
-                builder.append(" ");
+                message.append(s);
+                message.append(" ");
             }
-            shouters.add(player.getName());
-            player.chat(builder.toString());
-            shouters.remove(player.getName());
-        }
-    }
-
-    @SuppressWarnings("deprecation")
-    @EventHandler
-    public void onPlayerChat(PlayerChatEvent event) {
-        Player player = event.getPlayer();
-        String playerName = player.getName();
-
-        PlayerManager playerManager = ultimateGames.getPlayerManager();
-        if (playerManager.isPlayerInArena(playerName)) {
-            Arena arena = playerManager.getPlayerArena(playerName);
-            if (arena.getGame().equals(game) && arena.getStatus() == ArenaStatus.RUNNING && !shouters.contains(playerName)) {
-                Team team = ultimateGames.getTeamManager().getPlayerTeam(playerName);
-                Messenger messenger = ultimateGames.getMessenger();
-                messenger.sendRawMessage(team, String.format(messenger.getGameMessage(game, "teamprefix"), team.getColor() + playerName) + event.getMessage());
-                event.setCancelled(true);
-                ultimateGames.getMessenger().getLogger().info("<" + playerName + "> " + event.getMessage());
-            }
+            ultimateGames.getMessenger().sendMessage(arena, UGMessage.CHAT, teamColor + playerName, message.toString());
         }
     }
 
