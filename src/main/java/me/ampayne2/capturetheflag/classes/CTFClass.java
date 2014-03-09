@@ -58,10 +58,14 @@ public class CTFClass extends TieredClass {
     @Override
     public void resetInventory(Player player, int tier) {
         player.getInventory().addItem(instructions, CLASS_SELECTOR.getItem());
-        ArenaStatus status = ultimateGames.getPlayerManager().getPlayerArena(player.getName()).getStatus();
-        if (status == ArenaStatus.OPEN || status == ArenaStatus.STARTING) {
-            player.getInventory().addItem(TEAM_SELECTOR.getItem());
+        /*
+        if (ultimateGames.getPlayerManager().isPlayerInArena(player.getName())) {
+            ArenaStatus status = ultimateGames.getPlayerManager().getPlayerArena(player.getName()).getStatus();
+            if (status == ArenaStatus.OPEN || status == ArenaStatus.STARTING) {
+                player.getInventory().addItem(TEAM_SELECTOR.getItem());
+            }
         }
+        */
         player.getInventory().addItem(FOOD);
         switch (tier) {
             case 1:
