@@ -459,7 +459,7 @@ public class CaptureTheFlag extends GamePlugin implements Listener {
 
     @Override
     public void onArenaCommand(Arena arena, String command, CommandSender sender, String[] args) {
-        if (arena.getStatus() == ArenaStatus.RUNNING && command.equalsIgnoreCase("shout")) {
+        if (arena.getStatus() == ArenaStatus.RUNNING && (command.equalsIgnoreCase("shout") || command.equalsIgnoreCase("s"))) {
             Player player = (Player) sender;
             String playerName = player.getName();
             ChatColor teamColor = ChatColor.WHITE;
