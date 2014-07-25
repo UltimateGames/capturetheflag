@@ -1,6 +1,12 @@
 package me.ampayne2.capturetheflag;
 
-import me.ampayne2.capturetheflag.classes.*;
+import me.ampayne2.capturetheflag.classes.Archer;
+import me.ampayne2.capturetheflag.classes.Builder;
+import me.ampayne2.capturetheflag.classes.Demolitionist;
+import me.ampayne2.capturetheflag.classes.Medic;
+import me.ampayne2.capturetheflag.classes.Tank;
+import me.ampayne2.capturetheflag.classes.Toxicologist;
+import me.ampayne2.capturetheflag.classes.Warrior;
 import me.ampayne2.ultimategames.api.UltimateGames;
 import me.ampayne2.ultimategames.api.arenas.Arena;
 import me.ampayne2.ultimategames.api.arenas.ArenaStatus;
@@ -43,7 +49,12 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class CaptureTheFlag extends GamePlugin implements Listener {
     private UltimateGames ultimateGames;
